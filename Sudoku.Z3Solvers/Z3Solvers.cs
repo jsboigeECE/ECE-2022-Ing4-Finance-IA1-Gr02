@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using Microsoft.Z3;
 using Sudoku.Shared;
 
+
+
+
+
 namespace Sudoku.Z3Solvers
 {
 
@@ -96,8 +100,11 @@ namespace Sudoku.Z3Solvers
                     _reusableZ3Solver.Assert(GenericContraints);
                 }
                 return _reusableZ3Solver;
+
             }
         }
+
+      
 
 
 

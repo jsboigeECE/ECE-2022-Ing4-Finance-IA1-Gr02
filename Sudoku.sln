@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Shared", "Sudoku.Shared\Sudoku.Shared.csproj", "{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}"
 EndProject
@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Puzzles", "Puzzles", "{5351
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Z3Solvers", "Sudoku.Z3Solvers\Sudoku.Z3Solvers.csproj", "{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.bactrackingSolver", "Sudoku.bactrackingSolver\Sudoku.bactrackingSolver.csproj", "{7EF06927-95C9-4FFA-88CE-ACE10C8CF88B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +36,10 @@ Global
 		{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EF06927-95C9-4FFA-88CE-ACE10C8CF88B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EF06927-95C9-4FFA-88CE-ACE10C8CF88B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EF06927-95C9-4FFA-88CE-ACE10C8CF88B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EF06927-95C9-4FFA-88CE-ACE10C8CF88B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
