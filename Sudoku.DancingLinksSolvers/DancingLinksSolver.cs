@@ -18,7 +18,6 @@ namespace Sudoku.DancingLinksSolvers{
 
                 if (solutions.Any())
                 {
-                    Console.WriteLine($"First solution (of {solutions.Count}):");
                     return s;
                 }
                 else
@@ -30,6 +29,14 @@ namespace Sudoku.DancingLinksSolvers{
                 //  z3Context.MkTactic("smt");
 
         }
+
+        private static IEnumerable<int> Rows => Enumerable.Range(0, 9);
+        private static IEnumerable<int> Cols => Enumerable.Range(0, 9);
+        private static IEnumerable<Tuple<int, int>> Locations =>
+            from row in Rows
+            from col in Cols
+            select Tuple.Create(row, col);
+        private static IEnumerable<int> Digits => Enumerable.Range(1, 9);
         private static IImmutableList<int> BuildDlxRow(Tuple<int, int, int, bool> internalRow)
         {
             var row = internalRow.Item1;
@@ -45,6 +52,17 @@ namespace Sudoku.DancingLinksSolvers{
             return posVals.Concat(rowVals).Concat(colVals).Concat(boxVals).ToImmutableList();
         }
 
+        private static int RowColToBox(int row, int col)
+        {
+            return row - (row%3) + (col/3);
+        }
+
+        private static IEnumerable<int> Encode(int major, int minor)
+        {
+            var result = new int[81];
+            result[major*9 + minor] = 1;
+            return result.ToImmutableList();
+        }
         private static IImmutableList<Tuple<int, int, int, bool>> BuildInternalRowsForGrid(Shared.GridSudoku s)
         {
             var rowsByCols =
