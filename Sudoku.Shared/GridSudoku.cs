@@ -53,8 +53,14 @@ namespace Sudoku.Shared
             return toreturn;
         }
 
-        public static readonly (int row, int column)[][][] CellNeighbours;
+        private readonly IImmutableList<IImmutableList<int>> _rows;
 
+        public static readonly (int row, int column)[][][] CellNeighbours;
+        public int ValueAt(int row, int column)
+        {
+            _rows = new List<IImmutableList<int>>();
+            return _rows[row][column];
+        }
 
         static GridSudoku()
         {
