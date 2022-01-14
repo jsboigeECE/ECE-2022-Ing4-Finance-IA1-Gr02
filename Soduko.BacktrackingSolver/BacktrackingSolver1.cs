@@ -5,6 +5,8 @@ namespace Soduko.BacktrackingSolver
 {
     public class BacktrackingSolver1 : Sudoku.Shared.ISolverSudoku
     {
+
+
         public BacktrackingSolver1()
         {
 
