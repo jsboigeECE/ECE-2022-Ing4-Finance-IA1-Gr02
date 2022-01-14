@@ -40,7 +40,7 @@ namespace Sudoku.Benchmark
                 return toReturn;
 
             }
-            catch (AggregateException ae)
+            catch (System.AggregateException ae)
             {
                 throw ae.InnerExceptions[0];
             }
