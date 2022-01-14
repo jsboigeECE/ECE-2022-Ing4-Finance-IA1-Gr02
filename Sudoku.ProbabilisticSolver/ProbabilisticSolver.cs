@@ -12,7 +12,7 @@ namespace Sudoku.Probabilistic
 
     public class ProbabilisticSolver : Sudoku.Shared.ISolverSudoku
     {
-        private static RobustSudokuModel robustModel = new RobustSudokuModel();
+        //private static RobustSudokuModel robustModel = new RobustSudokuModel();
 
         GridSudoku ISolverSudoku.Solve(GridSudoku s)
         { 
