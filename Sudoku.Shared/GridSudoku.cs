@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Runtime.Loader;
@@ -53,12 +54,12 @@ namespace Sudoku.Shared
             return toreturn;
         }
 
-        private readonly IImmutableList<IImmutableList<int>> _rows;
+        private IImmutableList<IImmutableList<int>> _rows;
 
         public static readonly (int row, int column)[][][] CellNeighbours;
         public int ValueAt(int row, int column)
         {
-            _rows = new List<IImmutableList<int>>();
+            _rows = new IImmutableList<IImmutableList<int>>();
             return _rows[row][column];
         }
 
