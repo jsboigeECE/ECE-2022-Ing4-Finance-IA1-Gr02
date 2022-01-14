@@ -68,7 +68,7 @@ namespace Sudoku.DancingLinksSolvers{
             var rowsByCols =
                 from row in Rows
                 from col in Cols
-                let value = s.ValueAt(row, col)
+                let value = s.Cellules[row][col]
                 select BuildInternalRowsForCell(row, col, value);
 
             return rowsByCols.SelectMany(cols => cols).ToImmutableList();
