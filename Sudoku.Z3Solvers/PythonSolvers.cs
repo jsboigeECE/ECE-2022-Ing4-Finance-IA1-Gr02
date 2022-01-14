@@ -38,7 +38,7 @@ namespace Sudoku.Z3Solvers
             Console.WriteLine("Python version: " + sys.version);
         }
 
-
+        
 
         public abstract Shared.GridSudoku Solve(Shared.GridSudoku s);
 
