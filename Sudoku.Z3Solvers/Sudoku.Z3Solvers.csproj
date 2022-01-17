@@ -11,10 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Z3" Version="4.8.14" />
     <PackageReference Include="Python.Included" Version="3.7.3.13" />
-    <PackageReference Include="python" Version="3.10.1" />
-    <PackageReference Include="boost_python37-vc141" Version="1.71.0" />
-    <PackageReference Include="boost_python37-vc142" Version="1.71.0" />
-    <PackageReference Include="Python37" Version="1.0.0.1" />
   </ItemGroup>
 
   <ItemGroup>
