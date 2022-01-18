@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.GeneticSharpsSolver"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.solver-OR-Tools", "Sudoku.solver-OR-Tools\Sudoku.solver-OR-Tools.csproj", "{9DBF2524-3132-4742-8F96-D913C8423E1D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.DancingLinksSolvers", "Sudoku.DancingLinksSolvers\Sudoku.DancingLinksSolvers.csproj", "{DBE7CF41-0559-4C86-B28D-9A056EC53E92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +78,10 @@ Global
 		{9DBF2524-3132-4742-8F96-D913C8423E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DBF2524-3132-4742-8F96-D913C8423E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DBF2524-3132-4742-8F96-D913C8423E1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
