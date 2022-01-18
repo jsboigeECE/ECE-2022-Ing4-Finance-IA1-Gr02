@@ -1,7 +1,9 @@
-﻿using Sudoku.Shared;
+﻿using System;
+using Sudoku.Shared;
 using DlxLib;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace Sudoku.DancingLinksSolvers{
     public class DancingLinksSolvers1 : ISolverSudoku{
