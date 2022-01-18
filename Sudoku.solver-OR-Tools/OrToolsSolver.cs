@@ -6,7 +6,7 @@ using Sudoku.Shared;
 
 namespace Sudoku.solver_OR_Tools
 {
-    public class Sudoku_or_tools : Sudoku.Shared.ISolverSudoku
+    public class OrToolsSolver : ISolverSudoku
     {
 
         public Shared.GridSudoku Solve(Shared.GridSudoku sudoku)
@@ -86,12 +86,14 @@ namespace Sudoku.solver_OR_Tools
 
             solver.EndSearch();
 
+            //Shared.GridSudoku sudoku_fini = initial_grid.;
+            //return sudoku_fini;
+            return sudoku;
         }
-        Shared.GridSudoku sudoku_fini = initial_grid.;
-        return sudoku_fini;
+
+
     }
 
-            //throw new NotImplementedException();
-        }
-
+    //throw new NotImplementedException();
 }
+
