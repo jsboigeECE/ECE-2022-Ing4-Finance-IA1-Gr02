@@ -60,8 +60,8 @@ namespace Sudoku.Shared
             MacInstaller.LogMessage += Console.WriteLine;
             // Installer.SetupPython().Wait();
 
-            MacInstaller.InstallPath = "/Library/Frameworks/Python.framework/Versions";
-            MacInstaller.PythonDirectoryName = "3.7/";
+            //MacInstaller.InstallPath = "/Library/Frameworks/Python.framework/Versions";
+            //MacInstaller.PythonDirectoryName = "3.7/";
 
             var localInstallPath = MacInstaller.EmbeddedPythonHome;
 

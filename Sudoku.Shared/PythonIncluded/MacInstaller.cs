@@ -14,9 +14,9 @@ namespace Sudoku.Shared
 {
     public static class MacInstaller
     {
-        public static string InstallPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        public static string InstallPath { get; set; } =  "/Library/Frameworks/Python.framework/Versions"; //Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        public static string PythonDirectoryName { get; set; } = (string) null;
+        public static string PythonDirectoryName { get; set; } = "3.7/";// = (string) null;
 
         public static MacInstaller.InstallationSource Source { get; set; } = (MacInstaller.InstallationSource) new MacInstaller.DownloadInstallationSource()
         {
@@ -204,7 +204,8 @@ namespace Sudoku.Shared
             if (MacInstaller.IsModuleInstalled(module_name) && !force)
                 return;
             // string str1 = Path.Combine(MacInstaller.EmbeddedPythonHome, "Scripts", "pip");
-            string str1 = Path.Combine(MacInstaller.EmbeddedPythonHome, "bin", "pip3");
+            /*string str1 = */Path.Combine(MacInstaller.EmbeddedPythonHome, "bin", "pip3");
+            string str1 = "pip3";
             string str2 = force ? " --force-reinstall" : "";
             if (version.Length > 0)
                 version = "==" + version;
