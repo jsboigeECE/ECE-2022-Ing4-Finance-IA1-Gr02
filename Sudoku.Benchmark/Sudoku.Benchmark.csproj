@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Sudoku.NorvigSolvers\Sudoku.NorvigSolvers.csproj" />
     <ProjectReference Include="..\Sudoku.Shared\Sudoku.Shared.csproj" />
     <ProjectReference Include="..\Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj" />
+    <ProjectReference Include="..\Sudoku.solver-OR-Tools\Sudoku.solver-OR-Tools.csproj" />
     <ProjectReference Include="..\Sudoku.Z3Solvers\Sudoku.Z3Solvers.csproj" />
     <ProjectReference Include="..\Sudoku.ProbabilisticSolver\Sudoku.ProbabilisticSolver.csproj" />
     <ProjectReference Include="..\Soduko.BacktrackingSolver\Soduko.BacktrackingSolver.csproj" />
