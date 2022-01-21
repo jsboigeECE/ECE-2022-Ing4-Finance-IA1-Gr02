@@ -8,6 +8,7 @@ using Sudoku.Shared;
 namespace Sudoku.GeneticSharpsSolver
 {
 
+
     /// <summary>
     /// Each type of chromosome for solving a sudoku is simply required to output a list of candidate sudokus
     /// </summary>
@@ -169,6 +170,7 @@ namespace Sudoku.GeneticSharpsSolver
         public SudokuCellsChromosome(GridSudoku targetGridSudoku, Dictionary<int, List<int>> extendedMask) : base(targetGridSudoku, extendedMask, 81)
         {
         }
+
 
 
         public override Gene GenerateGene(int geneIndex)

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <RootNamespace>Sudoku.solver_OR_Tools</RootNamespace>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Google.OrTools" Version="9.2.9972" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sudoku.Shared\Sudoku.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
