@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Z3" Version="4.8.12" />
-    <PackageReference Include="Python.Included" Version="3.7.3.13" />
+    <PackageReference Include="Microsoft.Z3" Version="4.8.14" />
+    <PackageReference Include="pythonnet" Version="3.0.0-preview2022-01-03" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,4 +32,10 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="python" />
+    <None Remove="boost_python37-vc141" />
+    <None Remove="boost_python37-vc142" />
+    <None Remove="Python37" />
+  </ItemGroup>
 </Project>

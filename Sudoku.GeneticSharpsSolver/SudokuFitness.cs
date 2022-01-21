@@ -43,6 +43,11 @@ namespace Sudoku.GeneticSharpsSolver
               .Concat(cells.GroupBy(x => x.index / 27 * 27 + x.index % 9 / 3 * 3).Select(g => g.Select(c => c.cell))); //boxes
             var toReturn = -toTest.Sum(test => test.GroupBy(x => x).Select(g => g.Count() - 1).Sum()); // Summing over duplicates
             toReturn -= cells.Count(x => _targetGridSudoku.Cells[x.index] > 0 && _targetGridSudoku.Cells[x.index] != x.cell); // Mask
+
+
+
+
+
             return toReturn;
         }
     }
