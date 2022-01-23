@@ -4,45 +4,13 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
-using Python.Included;
 using Python.Runtime;
 using Sudoku.Shared;
 
 namespace Sudoku.Z3Solvers
 {
 
-    public abstract class PythonSolverBase : ISolverSudoku
-    {
-
-        public PythonSolverBase()
-        {
-            SetupPython();
-        }
-
-        protected void SetupPython()
-        {
-            InstallPythonComponents();
-            InitializePythonComponents();
-
-        }
-
-        protected virtual void InstallPythonComponents()
-        {
-            Installer.SetupPython().Wait();
-        }
-
-        protected virtual void InitializePythonComponents()
-        {
-            PythonEngine.Initialize();
-            dynamic sys = PythonEngine.ImportModule("sys");
-            Console.WriteLine("Python version: " + sys.version);
-        }
-
-
-
-        public abstract Shared.GridSudoku Solve(Shared.GridSudoku s);
-
-    }
+   
 
 
     public class Z3PythonDotNetSolver : PythonSolverBase
@@ -56,7 +24,7 @@ namespace Sudoku.Z3Solvers
             //using (Py.GIL())
             //{
             // create a Python scope
-            using (PyScope scope = Py.CreateScope())
+            using (PyModule scope = Py.CreateScope())
             {
                 // convert the Person object to a PyObject
                 PyObject pySudoku = s.ToPython();
@@ -87,7 +55,7 @@ namespace Sudoku.Z3Solvers
             //using (Py.GIL())
             //{
             // create a Python scope
-            using (PyScope scope = Py.CreateScope())
+            using (PyModule scope = Py.CreateScope())
             {
                 // convert the Person object to a PyObject
                 PyObject pyCells = s.Cellules.ToPython();
@@ -107,12 +75,10 @@ namespace Sudoku.Z3Solvers
 
         }
 
-        protected override void InstallPythonComponents()
+        protected override void InitializePythonComponents()
         {
-            base.InstallPythonComponents();
-            Installer.TryInstallPip();
-            Installer.PipInstallModule("z3");
-            Installer.PipInstallModule("z3-solver");
+            InstallPipModule("z3-solver");
+            base.InitializePythonComponents();
         }
 
 
