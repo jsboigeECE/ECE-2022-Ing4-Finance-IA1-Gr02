@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 //using Humanizer;
@@ -24,6 +25,23 @@ namespace Sudoku.Benchmark
         {
 
             Console.WriteLine("Benchmarking GrilleSudoku Solvers");
+            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Console.WriteLine("Customizing MacOs Python Install");
+                
+                // Installation Python standard, version différente
+                // MacInstaller.PythonDirectoryName = "3.10";
+                // MacInstaller.LibFileName = "libpython3.10.dylib";
+                
+                
+                // Environnement dédié Anaconda
+                // MacInstaller.InstallPath = "/Users/jesse/opt/anaconda3/envs";
+                // MacInstaller.PythonDirectoryName = "Sudoku";
+                // MacInstaller.LibFileName = "libpython3.7m.dylib";
+                
+            }
+            
 
             while (true)
             {
