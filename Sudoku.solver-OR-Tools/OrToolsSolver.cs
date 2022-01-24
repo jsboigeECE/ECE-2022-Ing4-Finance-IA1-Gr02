@@ -18,7 +18,10 @@ namespace Sudoku.solver_OR_Tools
             int n = cell_size * cell_size;
             IEnumerable<int> RANGE = Enumerable.Range(0, n);
 
-            int[,] initial_grid = sudoku.Cellules.To2D();
+
+            int[][] grille = sudoku.Cellules;
+
+            int[,] initial_grid = grille.To2D();
 
             IntVar[,] grid = solver.MakeIntVarMatrix(n, n, 1, 9, "grid");
             IntVar[] grid_flat = grid.Flatten();
@@ -84,10 +87,11 @@ namespace Sudoku.solver_OR_Tools
             Console.WriteLine("Failures: {0}", solver.Failures());
             Console.WriteLine("Branches: {0} ", solver.Branches());
 
+            sudoku.Cellules = grid.ToJaggedArray().Select(varrow => varrow.Select(varcells => (int)varcells.Value()).ToArray()).ToArray();
             solver.EndSearch();
 
-            //Shared.GridSudoku sudoku_fini = initial_grid.;
-            //return sudoku_fini;
+          
+
             return sudoku;
         }
 
