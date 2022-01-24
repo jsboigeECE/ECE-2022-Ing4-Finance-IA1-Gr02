@@ -25,6 +25,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.DancingLinksSolvers"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.SolverHumanTechnical", "Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj", "{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.ProbabilisticSolver", "Sudoku.ProbabilisticSolver\Sudoku.ProbabilisticSolver.csproj", "{A899C083-62B9-4831-890B-B4DAB27486E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soduko.BacktrackingSolver", "Soduko.BacktrackingSolver\Soduko.BacktrackingSolver.csproj", "{715A1670-3160-4B2F-826D-A47C02E5B0FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.RecuitSimule", "Sudoku.RecuitSimule\Sudoku.RecuitSimule.csproj", "{DC386E4B-2DB3-4DAF-BE30-3BC8A9B8B4D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +69,18 @@ Global
 		{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A899C083-62B9-4831-890B-B4DAB27486E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A899C083-62B9-4831-890B-B4DAB27486E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A899C083-62B9-4831-890B-B4DAB27486E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A899C083-62B9-4831-890B-B4DAB27486E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{715A1670-3160-4B2F-826D-A47C02E5B0FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{715A1670-3160-4B2F-826D-A47C02E5B0FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{715A1670-3160-4B2F-826D-A47C02E5B0FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{715A1670-3160-4B2F-826D-A47C02E5B0FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC386E4B-2DB3-4DAF-BE30-3BC8A9B8B4D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC386E4B-2DB3-4DAF-BE30-3BC8A9B8B4D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC386E4B-2DB3-4DAF-BE30-3BC8A9B8B4D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC386E4B-2DB3-4DAF-BE30-3BC8A9B8B4D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
