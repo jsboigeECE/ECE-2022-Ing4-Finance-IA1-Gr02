@@ -33,39 +33,7 @@ namespace Sudoku.GeneticSharpsSolver
         {
 
             var row = (int)geneIndex / 9;
-            var col = 0;
-            if (geneIndex > 8 && geneIndex < 18)
-            {
-                col = 1;
-            }
-            if (geneIndex > 17 && geneIndex < 27)
-            {
-                col = 2;
-            }
-            if (geneIndex > 26 && geneIndex < 36)
-            {
-                col = 3;
-            }
-            if (geneIndex > 35 && geneIndex < 45)
-            {
-                col = 4;
-            }
-            if (geneIndex > 44 && geneIndex < 54)
-            {
-                col = 5;
-            }
-            if (geneIndex > 53 && geneIndex < 63)
-            {
-                col = 6;
-            }
-            if (geneIndex > 62 && geneIndex < 72)
-            {
-                col = 7;
-            }
-            if (geneIndex > 71 && geneIndex < 81)
-            {
-                col = 8;
-            }
+            var col = geneIndex%9;
 
             //If a target mask exist and has a digit for the cell, we use it.
             if (TargetGridSudoku != null && TargetGridSudoku.Cellules[row][col] != 0)
@@ -91,6 +59,16 @@ namespace Sudoku.GeneticSharpsSolver
         public override IList<GridSudoku> GetSudokus()
         {
             var sudoku = new GridSudoku();
+            var genes = GetGenes().ToArray();
+            var index = 0;
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    sudoku.Cellules[i][j] = (int)genes[index].Value;
+                    index++;
+                }
+            }
             return new List<GridSudoku>(new[] { sudoku });
         }
 
