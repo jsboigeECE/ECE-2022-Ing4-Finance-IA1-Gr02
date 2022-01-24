@@ -13,7 +13,7 @@ namespace Sudoku.NorvigSolvers
             return (from a in A from b in B select "" + a + b).ToArray();
         }
 
-        private const string V = "";
+        static string V = "";
         static string rows = "ABCDEFGHI";
         static string cols = "123456789";
         static string digits = "123456789";
@@ -45,12 +45,11 @@ namespace Sudoku.NorvigSolvers
         }
 
         // Convertit la grille du sudoku en un long String pour la méthode de Norvig
-        public String Convertion(GridSudoku s)
+        public String Conversion(GridSudoku s)
         {
-
             String sudoku = "";
 
-            //On remplace chaque case du nouveau tableau par la grille passée en paramètre
+            // On remplace chaque case du nouveau tableau par la grille passée en paramètre
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -169,7 +168,6 @@ namespace Sudoku.NorvigSolvers
             }
             return true;
         }
-        //
         static T Some<T>(IEnumerable<T> seq)
         {
             foreach (var e in seq)
@@ -193,34 +191,30 @@ namespace Sudoku.NorvigSolvers
         public GridSudoku Solve(GridSudoku sudo)
         {
             String grid = "";
-            grid = Convertion(sudo);
-            Console.WriteLine("grille : ");
-            Console.WriteLine(grid);
+
+            // Conversion de la grille en String
+            grid = Conversion(sudo);
+
+            // Résolution du sudoku par l'appel des fonctions 
             var values = Search(Parse_grid(grid));
-            var width = 1 + (from s in squares select values[s].Length).Max();
-            var line = "\n" + String.Join("+", Enumerable.Repeat(new String('-', width * 3), 3).ToArray());
 
-            foreach (var r in rows)
-            {
-                Console.WriteLine(String.Join("",
-                    (from c in cols
-                     select Center(values[V + r + c], width) + ("36".Contains(c) ? "|" : "")).ToArray())
-                        + ("CF".Contains(r) ? line : ""));
-            }
-
-            // Convertit la sudoku solutionné pour le retourner sous forme GridSudoku
-            /*int a = 0;
+            // Conversion du sudoku résolu dans le bon type GridSudoku
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    sudo.Cellules[i][j] = Convert.ToInt16(grid.Substring(a, 1));
-                    a += 1;
+                    foreach (var value in values)
+                    {
+                        int rowIndex = value.Key[0] - 'A';
+                        int colIndex = int.Parse(value.Key[1].ToString()) - 1;
+                        if (rowIndex == i && colIndex == j)
+                        {
+                            sudo.Cellules[i][j] = int.Parse(value.Value.ToString());
+                        }
+                    }
                 }
-            }*/
-                
+            }
             return sudo;
         }
     }
-
 }
