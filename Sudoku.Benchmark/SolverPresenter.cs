@@ -42,8 +42,9 @@ namespace Sudoku.Benchmark
             }
             catch (Exception ae)
             {
-                return null;
-                //throw ae.InnerExceptions[0];
+                throw ae.InnerException;
+//                return null;
+//                throw ae.InnerExceptions[0];
             }
         }
 
