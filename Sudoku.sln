@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Shared", "Sudoku.Shared\Sudoku.Shared.csproj", "{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Benchmark", "Sudoku.Benchmark\Sudoku.Benchmark.csproj", "{3F6D87E5-3288-46C4-B192-F91D5FBB075B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Puzzles", "Puzzles", "{5351C3A6-44B9-45CB-B4DB-4578796500FB}"
 	ProjectSection(SolutionItems) = preProject
 		Puzzles\Sudoku_Easy50.txt = Puzzles\Sudoku_Easy50.txt
@@ -16,21 +14,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Puzzles", "Puzzles", "{5351
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Z3Solvers", "Sudoku.Z3Solvers\Sudoku.Z3Solvers.csproj", "{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.ProbabilisticSolver", "Sudoku.ProbabilisticSolver\Sudoku.ProbabilisticSolver.csproj", "{BB54D818-F97F-41B2-8B81-A756AE9FBB01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.ProbabilisticSolver", "Sudoku.ProbabilisticSolver\Sudoku.ProbabilisticSolver.csproj", "{BB54D818-F97F-41B2-8B81-A756AE9FBB01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soduko.BacktrackingSolver", "Soduko.BacktrackingSolver\Soduko.BacktrackingSolver.csproj", "{B29105F4-3E24-477F-A266-C0C39C55EC6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soduko.BacktrackingSolver", "Soduko.BacktrackingSolver\Soduko.BacktrackingSolver.csproj", "{B29105F4-3E24-477F-A266-C0C39C55EC6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.RecuitSimule", "Sudoku.RecuitSimule\Sudoku.RecuitSimule.csproj", "{DADF9A7F-316F-48F1-AE1F-324B55424669}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.RecuitSimule", "Sudoku.RecuitSimule\Sudoku.RecuitSimule.csproj", "{DADF9A7F-316F-48F1-AE1F-324B55424669}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.SolverHumanTechnical", "Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj", "{EEB0D7B6-C884-4314-912F-D2A21D85035E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.SolverHumanTechnical", "Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj", "{EEB0D7B6-C884-4314-912F-D2A21D85035E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.NorvigSolvers", "Sudoku.NorvigSolvers\Sudoku.NorvigSolvers.csproj", "{B3DB8643-E6BF-402F-9EAC-446B295F7186}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.GeneticSharpsSolver", "Sudoku.GeneticSharpsSolver\Sudoku.GeneticSharpsSolver.csproj", "{CC827A5D-F0A6-4014-9094-EF2172692178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.GeneticSharpsSolver", "Sudoku.GeneticSharpsSolver\Sudoku.GeneticSharpsSolver.csproj", "{CC827A5D-F0A6-4014-9094-EF2172692178}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.solver-OR-Tools", "Sudoku.solver-OR-Tools\Sudoku.solver-OR-Tools.csproj", "{9DBF2524-3132-4742-8F96-D913C8423E1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.solver-OR-Tools", "Sudoku.solver-OR-Tools\Sudoku.solver-OR-Tools.csproj", "{9DBF2524-3132-4742-8F96-D913C8423E1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.DancingLinksSolvers", "Sudoku.DancingLinksSolvers\Sudoku.DancingLinksSolvers.csproj", "{DBE7CF41-0559-4C86-B28D-9A056EC53E92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Benchmark", "Sudoku.Benchmark\Sudoku.Benchmark.csproj", "{2AE4F83B-AE0B-45DE-876E-16E3DD691B0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,10 +40,6 @@ Global
 		{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F6D87E5-3288-46C4-B192-F91D5FBB075B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F6D87E5-3288-46C4-B192-F91D5FBB075B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F6D87E5-3288-46C4-B192-F91D5FBB075B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F6D87E5-3288-46C4-B192-F91D5FBB075B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A35C20E9-B1AC-47FD-9213-E84C6C37C2E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -78,17 +72,15 @@ Global
 		{9DBF2524-3132-4742-8F96-D913C8423E1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DBF2524-3132-4742-8F96-D913C8423E1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DBF2524-3132-4742-8F96-D913C8423E1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AE4F83B-AE0B-45DE-876E-16E3DD691B0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE4F83B-AE0B-45DE-876E-16E3DD691B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE4F83B-AE0B-45DE-876E-16E3DD691B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE4F83B-AE0B-45DE-876E-16E3DD691B0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BEE8F8D1-8D10-45DA-ABF1-5DE630CBE60B}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal
