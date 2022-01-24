@@ -14,16 +14,18 @@ namespace Sudoku.Shared
 {
     public static class MacInstaller
     {
+
+        public static string LibFileName { get; set; } = "libpython3.7.dylib";
         public static string InstallPath { get; set; } =  "/Library/Frameworks/Python.framework/Versions"; //Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        public static string PythonDirectoryName { get; set; } = "3.7/";// = (string) null;
+        public static string PythonDirectoryName { get; set; } = "3.7";// = (string) null;
 
         public static MacInstaller.InstallationSource Source { get; set; } = (MacInstaller.InstallationSource) new MacInstaller.DownloadInstallationSource()
         {
             DownloadUrl = "https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip"
         };
 
-        public static string EmbeddedPythonHome => !string.IsNullOrWhiteSpace(MacInstaller.PythonDirectoryName) ? Path.Combine(MacInstaller.InstallPath, MacInstaller.PythonDirectoryName) : Path.Combine(MacInstaller.InstallPath, MacInstaller.Source.GetPythonDistributionName());
+        public static string InstallPythonHome => !string.IsNullOrWhiteSpace(MacInstaller.PythonDirectoryName) ? Path.Combine(MacInstaller.InstallPath, MacInstaller.PythonDirectoryName) : Path.Combine(MacInstaller.InstallPath, MacInstaller.Source.GetPythonDistributionName());
 
         public static event Action<string> LogMessage;
 
@@ -37,8 +39,8 @@ namespace Sudoku.Shared
 
         public static async Task SetupPython(bool force = false)
         {
-            Environment.SetEnvironmentVariable("PATH", MacInstaller.EmbeddedPythonHome + ";" + Environment.GetEnvironmentVariable("PATH"));
-            if (!force && Directory.Exists(MacInstaller.EmbeddedPythonHome) && File.Exists(Path.Combine(MacInstaller.EmbeddedPythonHome, "python.exe")))
+            Environment.SetEnvironmentVariable("PATH", MacInstaller.InstallPythonHome + ";" + Environment.GetEnvironmentVariable("PATH"));
+            if (!force && Directory.Exists(MacInstaller.InstallPythonHome) && File.Exists(Path.Combine(MacInstaller.InstallPythonHome, "python.exe")))
                 ;
             else
             {
@@ -51,7 +53,7 @@ namespace Sudoku.Shared
                         try
                         {
                             ZipFile.ExtractToDirectory(zip, zip.Replace(".zip", ""));
-                            File.Delete(Path.Combine(MacInstaller.EmbeddedPythonHome, MacInstaller.Source.GetPythonVersion() + "._pth"));
+                            File.Delete(Path.Combine(MacInstaller.InstallPythonHome, MacInstaller.Source.GetPythonVersion() + "._pth"));
                         }
                         catch (Exception ex)
                         {
@@ -109,7 +111,7 @@ namespace Sudoku.Shared
 
         private static string GetLibDirectory()
         {
-            string path = Path.Combine(MacInstaller.EmbeddedPythonHome, "Lib");
+            string path = Path.Combine(MacInstaller.InstallPythonHome, "Lib");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             return path;
@@ -130,7 +132,7 @@ namespace Sudoku.Shared
                 Console.WriteLine("Error extracting zip file: " + wheelPath);
             }
             File.Delete(wheelPath);
-            string path = Path.Combine(MacInstaller.EmbeddedPythonHome, MacInstaller.Source.GetPythonVersion() + "._pth");
+            string path = Path.Combine(MacInstaller.InstallPythonHome, MacInstaller.Source.GetPythonVersion() + "._pth");
             if (!File.Exists(path) || ((IEnumerable<string>) File.ReadAllLines(path)).Contains<string>("./Lib"))
                 return;
             File.AppendAllLines(path, (IEnumerable<string>) new string[1]
@@ -150,14 +152,14 @@ namespace Sudoku.Shared
             })).FirstOrDefault<string>();
             if (string.IsNullOrWhiteSpace(path2))
                 throw new ArgumentException("The resource name '" + resource_name + "' did not contain a valid module name");
-            string str1 = Path.Combine(MacInstaller.EmbeddedPythonHome, "Lib");
+            string str1 = Path.Combine(MacInstaller.InstallPythonHome, "Lib");
             if (!Directory.Exists(str1))
                 Directory.CreateDirectory(str1);
             string path = Path.Combine(str1, path2);
             if (!force && Directory.Exists(path))
                 return;
             string filePath = Path.Combine(str1, resourceKey);
-            string str2 = Path.Combine(MacInstaller.EmbeddedPythonHome, "Scripts", "pip3");
+            string str2 = Path.Combine(MacInstaller.InstallPythonHome, "Scripts", "pip3");
             MacInstaller.CopyEmbeddedResourceToFile(assembly, resourceKey, filePath, force);
             MacInstaller.TryInstallPip();
             string str3 = filePath;
@@ -204,23 +206,23 @@ namespace Sudoku.Shared
             if (MacInstaller.IsModuleInstalled(module_name) && !force)
                 return;
             // string str1 = Path.Combine(MacInstaller.EmbeddedPythonHome, "Scripts", "pip");
-            /*string str1 = */Path.Combine(MacInstaller.EmbeddedPythonHome, "bin", "pip3");
-            string str1 = "pip3";
+            string str1 = Path.Combine(MacInstaller.InstallPythonHome, "bin", "pip3");
+            // string str1 = "pip3";
             string str2 = force ? " --force-reinstall" : "";
             if (version.Length > 0)
                 version = "==" + version;
-      
-            MacInstaller.RunCommand($"{str1} install '{module_name}{version}' {str2}");
+            MacInstaller.RunCommand($"{str1} --version");
+            MacInstaller.RunCommand($"{str1} install {module_name}{version} {str2}");
         }
 
         public static void InstallPip()
         {
-            string path = Path.Combine(MacInstaller.EmbeddedPythonHome, "Lib");
+            string path = Path.Combine(MacInstaller.InstallPythonHome, "Lib");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             MacInstaller.RunCommand("cd " + path + " && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py");
             // MacInstaller.RunCommand("cd " + MacInstaller.EmbeddedPythonHome + " && python.exe Lib\\get-pip.py");
-            MacInstaller.RunCommand("cd " + MacInstaller.EmbeddedPythonHome + " && python get-pip.py");
+            MacInstaller.RunCommand("cd " + MacInstaller.InstallPythonHome + " && python get-pip.py");
         }
 
         public static bool TryInstallPip(bool force = false)
@@ -232,21 +234,22 @@ namespace Sudoku.Shared
                 MacInstaller.InstallPip();
                 return true;
             }
-            catch
+            catch (Exception ex)   
             {
-                throw new FileNotFoundException("pip is not installed");
+                Console.WriteLine($"Exception trying to install pip: {ex}");
+                return false;
             }
         }
 
-        public static bool IsPythonInstalled() => File.Exists(Path.Combine(MacInstaller.EmbeddedPythonHome, "Python"));
+        public static bool IsPythonInstalled() => File.Exists(Path.Combine(MacInstaller.InstallPythonHome, "Python"));
 
-        public static bool IsPipInstalled() => File.Exists(Path.Combine(MacInstaller.EmbeddedPythonHome, "bin", "pip3"));
+        public static bool IsPipInstalled() => File.Exists(Path.Combine(MacInstaller.InstallPythonHome, "bin", "pip3"));
 
         public static bool IsModuleInstalled(string module)
         {
             if (!MacInstaller.IsPythonInstalled())
                 return false;
-            string str = Path.Combine(MacInstaller.EmbeddedPythonHome, "Lib", "site-packages", module);
+            string str = Path.Combine(MacInstaller.InstallPythonHome, "Lib", "site-packages", module);
             return Directory.Exists(str) && File.Exists(Path.Combine(str, "__init__.py"));
         }
 
@@ -263,7 +266,7 @@ namespace Sudoku.Shared
                 if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows) )
                 {
                     str1 = "/bin/bash";
-                    str2 = "-c " + command;
+                    str2 = "-c " + $"\"{command}\"";
                 }
                 else
                 {
@@ -274,7 +277,7 @@ namespace Sudoku.Shared
                 process.StartInfo = new ProcessStartInfo()
                 {
                     FileName = str1,
-                    WorkingDirectory = MacInstaller.EmbeddedPythonHome,
+                    WorkingDirectory = MacInstaller.InstallPythonHome,
                     Arguments = str2,
                     CreateNoWindow = true,
                     UseShellExecute = false,

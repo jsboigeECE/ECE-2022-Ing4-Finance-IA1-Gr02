@@ -9,11 +9,11 @@ namespace Sudoku.GeneticSharpsSolver
 {
     public class SudokuFitness : IFitness 
     {
-        protected GridSudoku _targetSudokuBoard;
+        protected GridSudoku _targetGridSudoku;
 
-        public SudokuFitness (GridSudoku targetSudokuBoard)
+        public SudokuFitness (GridSudoku targetGridSudoku)
         {
-            _targetSudokuBoard = targetSudokuBoard;
+            _targetGridSudoku = targetGridSudoku;
         }
 
         public double Evaluate(IChromosome chromosome)
@@ -34,22 +34,17 @@ namespace Sudoku.GeneticSharpsSolver
             return scores.Sum();
         }
 
-        public double Evaluate(GridSudoku testSudokuBoard)
+        public double Evaluate(GridSudoku testGridSudoku)
         {
             // We use a large lambda expression to count duplicates in rows, columns and boxes
-            var cells = testSudokuBoard.Cellules.Select((c, i) => new { index = i, cell = c }).ToList();
-            var toTest = cells.GroupBy(x => x.index / 9).Select(g => g.Select(c => c.cell)) // rows
-              .Concat(cells.GroupBy(x => x.index % 9).Select(g => g.Select(c => c.cell))) //columns
-              .Concat(cells.GroupBy(x => x.index / 27 * 27 + x.index % 9 / 3 * 3).Select(g => g.Select(c => c.cell))); //boxes
-            var toReturn = -toTest.Sum(test => test.GroupBy(x => x).Select(g => g.Count() - 1).Sum()); // Summing over duplicates
-
-
-            //toReturn -= cells.Count(x => _targetSudokuBoard.Cellules[x.index][] > 0 && _targetSudokuBoard.Cellules[x.index] != x.cell); // Mask
-
-
-
-
-            return toReturn;
+            //var cells = testGridSudoku.Cellules.Select((c, i) => new { index = i, cell = c }).ToList();
+            //var toTest = cells.GroupBy(x => x.index / 9).Select(g => g.Select(c => c.cell)) // rows
+            //.Concat(cells.GroupBy(x => x.index % 9).Select(g => g.Select(c => c.cell))) //columns
+            //.Concat(cells.GroupBy(x => x.index / 27 * 27 + x.index % 9 / 3 * 3).Select(g => g.Select(c => c.cell))); //boxes
+            //var toReturn = -toTest.Sum(test => test.GroupBy(x => x).Select(g => g.Count() - 1).Sum()); // Summing over duplicates
+            // toReturn -= cells.Count(x => _targetGridSudoku.Cellules[x.index][] > 0 && _targetGridSudoku.Cellules[x.index] != x.cell); // Mask
+            //return toReturn;
+            return -testGridSudoku.NbErrors(_targetGridSudoku);
         }
     }
 }
