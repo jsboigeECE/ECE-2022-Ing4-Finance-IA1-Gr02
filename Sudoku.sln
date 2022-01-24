@@ -18,8 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Z3Solvers", "Sudoku.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.SolverHumanTechnical", "Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj", "{EEB0D7B6-C884-4314-912F-D2A21D85035E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuSolver", "..\..\..\..\Documents\IA FINANCE\SudokuSolver-master\SudokuSolver\SudokuSolver.csproj", "{C3556DE7-3124-4995-8BBB-FD9DFF460193}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,10 +40,6 @@ Global
 		{EEB0D7B6-C884-4314-912F-D2A21D85035E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEB0D7B6-C884-4314-912F-D2A21D85035E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEB0D7B6-C884-4314-912F-D2A21D85035E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C3556DE7-3124-4995-8BBB-FD9DFF460193}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3556DE7-3124-4995-8BBB-FD9DFF460193}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3556DE7-3124-4995-8BBB-FD9DFF460193}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3556DE7-3124-4995-8BBB-FD9DFF460193}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
