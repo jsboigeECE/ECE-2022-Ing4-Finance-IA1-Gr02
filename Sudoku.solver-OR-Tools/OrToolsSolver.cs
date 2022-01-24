@@ -74,21 +74,22 @@ namespace Sudoku.solver_OR_Tools
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        Console.Write("{0} ", grid[i, j].Value());
+                        //Console.Write("{0} ", grid[i, j].Value());
+                        sudoku.Cellules[i][ j] = (int) grid[i, j].Value();
                     }
-                    Console.WriteLine();
+                    //Console.WriteLine();
                 }
 
-                Console.WriteLine();
+                //Console.WriteLine();
             }
 
-            Console.WriteLine("\nSolutions: {0}", solver.Solutions());
-            Console.WriteLine("WallTime: {0}ms", solver.WallTime());
-            Console.WriteLine("Failures: {0}", solver.Failures());
-            Console.WriteLine("Branches: {0} ", solver.Branches());
+            //Console.WriteLine("\nSolutions: {0}", solver.Solutions());
+            //Console.WriteLine("WallTime: {0}ms", solver.WallTime());
+            //Console.WriteLine("Failures: {0}", solver.Failures());
+            //Console.WriteLine("Branches: {0} ", solver.Branches());
 
-            sudoku.Cellules = grid.ToJaggedArray().Select(varrow => varrow.Select(varcells => (int)varcells.Value()).ToArray()).ToArray();
-            solver.EndSearch();
+            //sudoku.Cellules = grid.ToJaggedArray().Select(varrow => varrow.Select(varcells => (int)varcells.Value()).ToArray()).ToArray();
+            //solver.EndSearch();
 
           
 
