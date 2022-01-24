@@ -6,7 +6,7 @@ using System.Collections.Immutable;
 namespace Sudoku.DancingLinksSolvers{
     public class DancingLinksSolvers1 : ISolverSudoku{
         public Shared.GridSudoku Solve(Shared.GridSudoku s)
-            {   
+            {
                 var internalRows = BuildInternalRowsForGrid(s);
                 var dlxRows = BuildDlxRows(internalRows);
                 var solutions = new Dlx()
@@ -18,15 +18,16 @@ namespace Sudoku.DancingLinksSolvers{
 
                 if (solutions.Any())
                 {
-                    return s;
+                    Console.WriteLine($"First solution (of {solutions.Count}):");
+                    Console.WriteLine();
+                    return SolutionToGrid(internalRows, solutions.First());
+
                 }
                 else
                 {
                     Console.WriteLine("No solutions found!");
                     return s;
                 }
-                
-                //  z3Context.MkTactic("smt");
 
         }
 
@@ -141,6 +142,32 @@ namespace Sudoku.DancingLinksSolvers{
             Console.WriteLine($"{tag} {key}: {values} !!!");
             return false;
         }
+        private static Shared.GridSudoku SolutionToGrid(
+            IReadOnlyList<Tuple<int, int, int, bool>> internalRows,
+            Solution solution)
+        {
+            var solutiongrid = solution.RowIndexes
+                .Select(rowIndex => internalRows[rowIndex])
+                .OrderBy(t => t.Item1)
+                .ThenBy(t => t.Item2)
+                .GroupBy(t => t.Item1, t => t.Item3)
+                .Select(value => string.Concat(value))
+                .ToImmutableList();
+
+            var sol = new GridSudoku();
+            for (int i = 0; i < solutiongrid.Count; i++)
+            {
+                for (int j = 0; j < solutiongrid.Count; j++)
+                {
+                    sol.Cellules[i][j] = solutiongrid[i][j] - 48;
+
+                }
+            }
+
+            return sol;
+        }
+
+       
 
     }
 }
