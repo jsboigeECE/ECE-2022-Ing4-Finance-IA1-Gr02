@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft;
-using Google.Type;
 using Sudoku.Shared;
 
 namespace Soduko.BacktrackingSolver
