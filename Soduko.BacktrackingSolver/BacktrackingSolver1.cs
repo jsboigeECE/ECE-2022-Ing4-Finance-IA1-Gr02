@@ -9,12 +9,6 @@ namespace Soduko.BacktrackingSolver
     public class BacktrackingSolver1 : Sudoku.Shared.ISolverSudoku
     {
 
-
-        public BacktrackingSolver1()
-        {
-
-        }
-
         public GridSudoku Solve(GridSudoku s)
         {
             int[,] sudoku;
@@ -31,10 +25,8 @@ namespace Soduko.BacktrackingSolver
                 for (int j = 0; j < 9; j++)
                     s.Cellules[i][j] = sudoku[i, j];
 
-
             return s;
         }
-
 
         public int[,] Convertion(GridSudoku s)
         {
@@ -52,8 +44,6 @@ namespace Soduko.BacktrackingSolver
         static bool SolverBacktracking(int[,] grid, int row,
                           int col)
         {
-
-
             if (row == 9 - 1 && col == 9)
                 return true;
 
@@ -86,11 +76,8 @@ namespace Soduko.BacktrackingSolver
             return false;
         }
 
-        static bool IsSafe(int[,] grid, int row, int col,
-                     int num)
+        static bool IsSafe(int[,] grid, int row, int col,int num)
         {
-
-
             for (int x = 0; x <= 8; x++)
                 if (grid[row, x] == num)
                     return false;
@@ -101,8 +88,8 @@ namespace Soduko.BacktrackingSolver
                     return false;
 
 
-            int startRow = row - row % 3, startCol
-              = col - col % 3;
+            int startRow = row - row % 3;
+            int startCol = col - col % 3;
             for (int i = 0; i < 3; i++)
                 for (int j = 0; j < 3; j++)
                     if (grid[i + startRow, j + startCol] == num)
@@ -110,8 +97,5 @@ namespace Soduko.BacktrackingSolver
 
             return true;
         }
-
-
-
     }
 }
