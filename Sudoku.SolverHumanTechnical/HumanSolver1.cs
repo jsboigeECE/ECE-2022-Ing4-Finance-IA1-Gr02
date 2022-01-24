@@ -1,5 +1,6 @@
 ﻿using Sudoku.Shared;
 using System;
+using SudokuSolver;
 
 namespace Sudoku.SolverHumanTechnical
 {
