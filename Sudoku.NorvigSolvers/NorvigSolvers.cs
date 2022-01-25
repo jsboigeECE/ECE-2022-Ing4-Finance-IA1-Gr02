@@ -176,16 +176,6 @@ namespace Sudoku.NorvigSolvers
             }
             return default(T);
         }
-        static string Center(string s, int width)
-        {
-            var n = width - s.Length;
-            if (n <= 0) return s;
-            var half = n / 2;
-
-            if (n % 2 > 0 && width % 2 > 0) half++;
-
-            return new string(' ', half) + s + new String(' ', n - half);
-        }
 
         // Retourne le sudoku résolu
         public GridSudoku Solve(GridSudoku sudo)
