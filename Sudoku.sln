@@ -1,7 +1,6 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Shared", "Sudoku.Shared\Sudoku.Shared.csproj", "{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}"
 EndProject
@@ -22,17 +21,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soduko.BacktrackingSolver",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.RecuitSimule", "Sudoku.RecuitSimule\Sudoku.RecuitSimule.csproj", "{DADF9A7F-316F-48F1-AE1F-324B55424669}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.SolverHumanTechnical", "Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj", "{EEB0D7B6-C884-4314-912F-D2A21D85035E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.NorvigSolvers", "Sudoku.NorvigSolvers\Sudoku.NorvigSolvers.csproj", "{B3DB8643-E6BF-402F-9EAC-446B295F7186}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.SolverHumanTechnical", "Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj", "{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.GeneticSharpsSolver", "Sudoku.GeneticSharpsSolver\Sudoku.GeneticSharpsSolver.csproj", "{CC827A5D-F0A6-4014-9094-EF2172692178}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.solver-OR-Tools", "Sudoku.solver-OR-Tools\Sudoku.solver-OR-Tools.csproj", "{9DBF2524-3132-4742-8F96-D913C8423E1D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.DancingLinksSolvers", "Sudoku.DancingLinksSolvers\Sudoku.DancingLinksSolvers.csproj", "{DBE7CF41-0559-4C86-B28D-9A056EC53E92}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Or-Tools-Optimal", "Or-Tools-Optimal\Or-Tools-Optimal.csproj", "{D14CC7B7-369F-4499-B7C6-F36D0D901584}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,14 +61,14 @@ Global
 		{DADF9A7F-316F-48F1-AE1F-324B55424669}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DADF9A7F-316F-48F1-AE1F-324B55424669}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DADF9A7F-316F-48F1-AE1F-324B55424669}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEB0D7B6-C884-4314-912F-D2A21D85035E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEB0D7B6-C884-4314-912F-D2A21D85035E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEB0D7B6-C884-4314-912F-D2A21D85035E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEB0D7B6-C884-4314-912F-D2A21D85035E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3DB8643-E6BF-402F-9EAC-446B295F7186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B3DB8643-E6BF-402F-9EAC-446B295F7186}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3DB8643-E6BF-402F-9EAC-446B295F7186}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3DB8643-E6BF-402F-9EAC-446B295F7186}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7C8A3CD-0D08-4FDA-B678-8A5237B86BE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CC827A5D-F0A6-4014-9094-EF2172692178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC827A5D-F0A6-4014-9094-EF2172692178}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC827A5D-F0A6-4014-9094-EF2172692178}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,10 +81,6 @@ Global
 		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBE7CF41-0559-4C86-B28D-9A056EC53E92}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D14CC7B7-369F-4499-B7C6-F36D0D901584}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D14CC7B7-369F-4499-B7C6-F36D0D901584}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D14CC7B7-369F-4499-B7C6-F36D0D901584}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D14CC7B7-369F-4499-B7C6-F36D0D901584}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
