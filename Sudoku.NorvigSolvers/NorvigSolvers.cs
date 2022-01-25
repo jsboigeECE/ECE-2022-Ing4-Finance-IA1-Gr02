@@ -199,20 +199,11 @@ namespace Sudoku.NorvigSolvers
             var values = Search(Parse_grid(grid));
 
             // Conversion du sudoku résolu dans le bon type GridSudoku
-            for (int i = 0; i < 9; i++)
+            foreach (var value in values)
             {
-                for (int j = 0; j < 9; j++)
-                {
-                    foreach (var value in values)
-                    {
-                        int rowIndex = value.Key[0] - 'A';
-                        int colIndex = int.Parse(value.Key[1].ToString()) - 1;
-                        if (rowIndex == i && colIndex == j)
-                        {
-                            sudo.Cellules[i][j] = int.Parse(value.Value.ToString());
-                        }
-                    }
-                }
+                int rowIndex = value.Key[0] - 'A';
+                int colIndex = int.Parse(value.Key[1].ToString()) - 1;
+                sudo.Cellules[rowIndex][colIndex] = int.Parse(value.Value.ToString());
             }
             return sudo;
         }
