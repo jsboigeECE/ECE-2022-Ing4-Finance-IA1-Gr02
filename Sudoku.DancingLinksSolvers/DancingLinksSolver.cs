@@ -176,7 +176,7 @@ namespace Sudoku.DancingLinksSolvers{
         public override Shared.GridSudoku Solve(Shared.GridSudoku s)
         {
 
-            Dlx.MatrixList s = new Dlx.MatrixList(s.get());
+            MatrixList s = new Dlx.MatrixList(s.get());
             s.search();
             sudoku.setSudoku(s.convertMatrixSudoku());
 
