@@ -46,4 +46,42 @@ namespace Sudoku.GeneticSharpsSolver
             return s;
         }
     }
+
+    public class PermutationsChromosome : ISolverSudoku
+    {
+        public GridSudoku Solve(GridSudoku s)
+        {
+
+            var populationSize = 500;
+            var fitnessThreshold = 0;
+            var generationNb = 50;
+
+            var sudokuChromosome = new SudokuPermutationsChromosome(s);
+            var fitness = new SudokuFitness(s);
+            var selection = new EliteSelection();
+            var crossover = new UniformCrossover();
+            var mutation = new UniformMutation();
+
+            var population = new Population(populationSize, populationSize, sudokuChromosome);
+            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            {
+                Termination = new OrTermination(new ITermination[]
+                {
+                    new FitnessThresholdTermination(fitnessThreshold),
+                    new GenerationNumberTermination(generationNb)
+                })
+            };
+
+            ga.Start();
+
+            var bestIndividual = ((ISudokuChromosome)ga.Population.BestChromosome);
+            var solutions = bestIndividual.GetSudokus();
+            if (solutions.Count > 0)
+            {
+                return solutions.First();
+            }
+
+            return s;
+        }
+    }
 }
