@@ -7,4 +7,27 @@
   <ItemGroup>
     <ProjectReference Include="..\Sudoku.Shared\Sudoku.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\" />
+    <None Remove="pythonnet" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="pythonnet" Version="3.0.0-preview2022-01-03" />
+  </ItemGroup>
 </Project>
