@@ -11,8 +11,6 @@ namespace Sudoku.Shared
 {
     public class GridSudoku : ICloneable
     {
-
-       
         /// <summary>
         /// The list of row indexes is used many times and thus stored for quicker access.
         /// </summary>

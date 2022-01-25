@@ -37,7 +37,6 @@ namespace Sudoku.Z3Solvers
 
     }
 
-
     public class Z3CleanSolver : Z3SolverBase
     {
         public override Shared.GridSudoku Solve(Shared.GridSudoku s)
@@ -46,8 +45,6 @@ namespace Sudoku.Z3Solvers
         }
 
     }
-
-
 
     public class Z3InitialSolver:Z3SolverBase
     {

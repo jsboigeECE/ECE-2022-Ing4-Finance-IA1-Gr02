@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Sudoku.Shared;
 using Python.Runtime;
 using System.Linq;
@@ -25,8 +26,10 @@ namespace Sudoku.RecuitSimule
                 string code = Resources.RecuitSimuleSolver_py;
                 scope.Exec(code);
                 var result = scope.Get("solution");
-                var strResult = result.ToString();
-                var managedResult = strResult.Split("\n").Select(l=>l.Select(c => (int.Parse(c.ToString()))).ToArray()).ToArray(); //result.As < int[,]>();
+                //var strResult = result.ToString();
+                var managedResult = result.As<object[][]>()
+                    .Select(row => row.Select(cell => int.Parse(cell.ToString(),CultureInfo.InvariantCulture )).ToArray()).ToArray(); 
+                //strResult.Split("\n").Select(l=>l.Select(c => (int.Parse(c.ToString()))).ToArray()).ToArray(); //result.As < int[,]>();
                 //var convertesdResult = managedResult.Select(objList => objList.Select(o => (int)o).ToArray()).ToArray();
 
                 return new Shared.GridSudoku() { Cellules = managedResult};
