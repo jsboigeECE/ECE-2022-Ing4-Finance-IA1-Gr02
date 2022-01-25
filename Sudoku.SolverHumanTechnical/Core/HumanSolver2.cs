@@ -1,21 +1,19 @@
-﻿using Sudoku.Shared;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
+using Sudoku.Shared;
 using System.Linq;
-using System;
 
-
-
-
-namespace Sudoku.SolverHumanTechnical
+namespace Kermalis.SudokuSolver.Core
 {
-    public class HumanSolver1 : ISolverSudoku
+    public class HumanSolver2 : ISolverSudoku
     {
-        
         GridSudoku ISolverSudoku.Solve(GridSudoku s)
         {
+            Solve1(s);
             return s;
         }
-    /*
+
         public void Solve1(GridSudoku s)
         {
 
@@ -26,8 +24,8 @@ namespace Sudoku.SolverHumanTechnical
                 list_cell.Add(ligne);
                 foreach (var j in System.Linq.Enumerable.Range(0, 9))
                 {
-                   ligne.Add(s.GetCellule(j, i));
-                    
+                    ligne.Add(s.Cellules[j][i]);
+
 
                 }
             }
@@ -40,13 +38,14 @@ namespace Sudoku.SolverHumanTechnical
             {
                 foreach (var j in System.Linq.Enumerable.Range(0, 9))
                 {
-                    s.SetCell(i, j, monPuzzle.Rows[i][j].Value);
-
+                    s.Cellules([i][j]; monPuzzle.Rows[i][j].Value);
                 }
             }
 
 
-        }*/
+        }
 
     }
+
+
 }
