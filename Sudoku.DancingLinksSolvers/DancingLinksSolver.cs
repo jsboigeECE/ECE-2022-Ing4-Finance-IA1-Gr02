@@ -169,32 +169,32 @@ namespace Sudoku.DancingLinksSolvers{
             return sol;
         }
 
-       
-
     }
 
-    public class DancingLinksSolvers2 : ISolverSudoku{
-        public override Shared.GridSudoku Solve(Shared.GridSudoku s){
-            
+    public class DancingLinksSolvers2 : ISolverSudoku
+    {
+        public override Shared.GridSudoku Solve(Shared.GridSudoku s)
+        {
+
             Dlx.MatrixList s = new Dlx.MatrixList(s.get());
             s.search();
             sudoku.setSudoku(s.convertMatrixSudoku());
 
         }
-       // public Sudoku sudoku; //= new Sudoku();
+        // public Sudoku sudoku; //= new Sudoku();
         private int[,] matrix;
         private const int NBCONSTRAIN = 9 * 9 * 4;
 
         private void matrixBuilder(Shared.GridSudoku s)
         {
             int nbCaseRemplie = s.get.Aggregate(0, (acc, x) => acc + x.Aggregate(0, (a, b) => a + ((b == 0) ? 0 : 1)));
-            matrix = new int[(81-nbCaseRemplie)*9+nbCaseRemplie,NBCONSTRAIN];
+            matrix = new int[(81 - nbCaseRemplie) * 9 + nbCaseRemplie, NBCONSTRAIN];
             int imatrix = 0;
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    imatrix  = buildLine(i, j, s.GetNumericValue(i, j),imatrix);
+                    imatrix = buildLine(i, j, s.GetNumericValue(i, j), imatrix);
                 }
             }
         }
@@ -210,19 +210,19 @@ namespace Sudoku.DancingLinksSolvers{
                 int end = imatrix + 9;
                 for (; imatrix < end; imatrix++)
                 {
-                    matrix[imatrix,RCC] = 1;
-                    matrix[imatrix,RNC++] = 1;
-                    matrix[imatrix,CNC++] = 1;
-                    matrix[imatrix,BNC++] = 1;
+                    matrix[imatrix, RCC] = 1;
+                    matrix[imatrix, RNC++] = 1;
+                    matrix[imatrix, CNC++] = 1;
+                    matrix[imatrix, BNC++] = 1;
                 }
                 return end;
             }
             else
             {
-                matrix[imatrix,calcRCConstrain(i, j)] = 1;
-                matrix[imatrix,calcRNConstrain(i, value)] = 1;
-                matrix[imatrix,calcCNConstrain(j, value)] = 1;
-                matrix[imatrix,calcBNConstrain(i, j, value)] = 1;
+                matrix[imatrix, calcRCConstrain(i, j)] = 1;
+                matrix[imatrix, calcRNConstrain(i, value)] = 1;
+                matrix[imatrix, calcCNConstrain(j, value)] = 1;
+                matrix[imatrix, calcBNConstrain(i, j, value)] = 1;
                 return imatrix + 1;
             }
         }
