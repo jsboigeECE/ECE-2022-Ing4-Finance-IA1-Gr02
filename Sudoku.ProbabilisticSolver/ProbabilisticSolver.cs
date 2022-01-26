@@ -12,14 +12,15 @@ namespace Sudoku.Probabilistic
 
     public class ProbabilisticSolver : Sudoku.Shared.ISolverSudoku
     {
-        //private static RobustSudokuModel robustModel = new RobustSudokuModel();
+
+        private static RobustSudokuModel robustModel = new RobustSudokuModel();
 
         GridSudoku ISolverSudoku.Solve(GridSudoku s)
         { 
-            return s;
+            return robustModel.SolveSudoku(s);
         }
     }
-    /*
+
     public class RobustSudokuModel
     {
 
@@ -61,17 +62,19 @@ namespace Sudoku.Probabilistic
 
 
             //Ajout des contraintes de Sudoku (all diff pour tous les voisinages)
-            foreach (var cellIndex in GridSudoku.NeighbourIndices)
+            for (int i = 0; i < 9; i++)
             {
-                foreach (var neighbourCellIndex in GridSudoku.CellNeighbours[cellIndex])
+                for (int j = 0; j < 9; j++)
                 {
-                    if (neighbourCellIndex > cellIndex)
+                    foreach (var neighbourCellIndex in GridSudoku.CellNeighbours[i][j])
                     {
-                        Variable.ConstrainFalse(Cells[cellIndex] == Cells[neighbourCellIndex]);
+                        if (neighbourCellIndex > (i,j))
+                        {
+                            Variable.ConstrainFalse(Cells[cellIndex] == Cells[neighbourCellIndex]);
+                        }
                     }
                 }
             }
-
 
             //Todo: tester d'autres algo et paramétrages associés
 
@@ -96,7 +99,7 @@ namespace Sudoku.Probabilistic
             Dirichlet[] dirArray = Enumerable.Repeat(Dirichlet.Uniform(CellDomain.Count), CellIndices.Count).ToArray();
 
             //On affecte les valeurs fournies par le masque à résoudre en affectant les distributions de probabilités initiales
-            foreach (var cellIndex in GridSudoku.NeighbourIndices)
+            foreach (var cellIndex in GridSudoku.IndicesCellules)
             {
                 if (s.Cellules[cellIndex] > 0)
                 {
@@ -127,10 +130,10 @@ namespace Sudoku.Probabilistic
             //
             // r = 1
 
-            // for (i=0; i<9; i++)
-		    //    for (j=0; j<9; j++)
-			//        for (k=0; k<9; k++)
-			//	        ps[i][j][k] = probs[i][j][k].p; 
+            /* for (i=0; i<9; i++)
+		        for (j=0; j<9; j++)
+			        for (k=0; k<9; k++)
+				        ps[i][j][k] = probs[i][j][k].p; */
 
 
             //DistributionRefArray<Discrete, int> cellsPosterior = (DistributionRefArray<Discrete, int>)InferenceEngine.Infer(Cells);
@@ -139,7 +142,7 @@ namespace Sudoku.Probabilistic
             //Autre possibilité de variable d'inférence (bis)
             Dirichlet[] cellsProbsPosterior = InferenceEngine.Infer<Dirichlet[]>(ProbCells);
 
-            foreach (var cellIndex in GridSudoku.NeighbourIndices)
+            foreach (var cellIndex in GridSudoku.IndicesCellules)
             {
                 if (s.Cellules[cellIndex] == 0)
                 {
@@ -156,71 +159,4 @@ namespace Sudoku.Probabilistic
 
         }
 
-
-
-        public class NaiveSudokuModel
-        {
-
-            private static List<int> CellDomain = Enumerable.Range(1, 9).ToList();
-            private static List<int> CellIndices = Enumerable.Range(0, 81).ToList();
-
-
-            public virtual void SolveSudoku(GridSudoku s)
-            {
-
-                var algo = new ExpectationPropagation();
-                var engine = new InferenceEngine(algo);
-
-                //Implémentation naïve: une variable aléatoire entière par cellule
-                var cells = new List<Variable<int>>(CellIndices.Count);
-
-                foreach (var cellIndex in GridSudoku.NeighbourIndices)
-                {
-                    //On initialise le vecteur de probabilités de façon uniforme pour les chiffres de 1 à 9
-                    var baseProbas = Enumerable.Repeat(1.0, CellDomain.Count).ToList();
-                    //Création et ajout de la variable aléatoire
-                    var cell = Variable.Discrete(baseProbas.ToArray());
-                    cells.Add(cell);
-
-                }
-
-                //Ajout des contraintes de Sudoku (all diff pour tous les voisinages)
-                foreach (var cellIndex in GridSudoku.NeighbourIndices)
-                {
-                    foreach (var neighbourCellIndex in GridSudoku.VoisinagesParCellule[cellIndex])
-                    {
-                        if (neighbourCellIndex > cellIndex)
-                        {
-                            Variable.ConstrainFalse(cells[cellIndex] == cells[neighbourCellIndex]);
-                        }
-                    }
-                }
-
-                //On affecte les valeurs fournies par le masque à résoudre comme variables observées
-                foreach (var cellIndex in GridSudoku.IndicesCellules)
-                {
-                    if (s.Cellules[cellIndex] > 0)
-                    {
-                        cells[cellIndex].ObservedValue = s.Cellules[cellIndex] - 1;
-                    }
-                }
-
-                foreach (var cellIndex in GridSudoku.IndicesCellules)
-                {
-                    if (s.Cellules[cellIndex] == 0)
-                    {
-                        var result = (Discrete)engine.Infer(cells[cellIndex]);
-                        s.Cellules[cellIndex] = result.Point + 1;
-                    }
-                }
-
-            }
-
-
-
-        }
-
-
-    } */
-
-}
+    }
