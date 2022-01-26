@@ -6,8 +6,26 @@ using System.Collections.Immutable;
 using System.Linq;
 
 namespace Sudoku.DancingLinksSolvers {
+
+    public class DancingLinksSolverInit : DancingLinksSolversBase
+    {
+        public override GridSudoku Solve(Shared.GridSudoku s)
+        {
+            return SolverDancingLinksBase(s);
+        }
+    }
+
+    public class DancingLinksSolverBetter : DancingLinksSolversBase
+    {
+        public override GridSudoku Solve(Shared.GridSudoku s)
+        {
+            return SolverDancingLinksBetter(s);
+        }
+    }
     public abstract class DancingLinksSolversBase : ISolverSudoku {
-        public Shared.GridSudoku Solve(Shared.GridSudoku s) {
+
+        public abstract GridSudoku Solve(Shared.GridSudoku s);
+        protected GridSudoku SolverDancingLinksBase(Shared.GridSudoku s) {
 
             var internalRows = BuildInternalRowsForGrid(s);
             var dlxRows = BuildDlxRows(internalRows);
@@ -176,14 +194,24 @@ namespace Sudoku.DancingLinksSolvers {
 
         private void matrixBuilder(Shared.GridSudoku s)
         {
-            int nbCaseRemplie = s.get.Aggregate(0, (acc, x) => acc + x.Aggregate(0, (a, b) => a + ((b == 0) ? 0 : 1)));
+            int nbCaseRemplie = 0; //= s.get.Aggregate(0, (acc, x) => acc + x.Aggregate(0, (a, b) => a + ((b == 0) ? 0 : 1)));
+            for (int i = 0; i < s.Cellules.Length; i++)
+            {
+                for (int j = 0; j < s.Cellules.Length; j++)
+                {
+                    if (s.Cellules[i][j] > 0)
+                    {
+                        nbCaseRemplie += 1;
+                    }
+                }
+            }
             matrix = new int[(81 - nbCaseRemplie) * 9 + nbCaseRemplie, NBCONSTRAIN];
             int imatrix = 0;
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    imatrix = buildLine(i, j, s.GetNumericValue(i, j), imatrix);
+                    imatrix = buildLine(i, j, s.Cellules[i][j], imatrix);
                 }
             }
         }
@@ -257,26 +285,34 @@ namespace Sudoku.DancingLinksSolvers {
                         break;
                     }
                 }
-                sudoku.setCaseSudoku(y, x, nb);
+                //s.setCaeSudokus(y, x, nb);
                 //sudoku.setCaseSudoku((nb / 9), (nb % 9), (row % 10) + 1);
             }
         }
-            
-    }
-    
-    public class DancingLinksSolversBetter : DancingLinksSolversBase
-        {
-            public override Shared.GridSudoku Solve(Shared.GridSudoku s)
+        protected GridSudoku SolverDancingLinksBetter(Shared.GridSudoku s) {
+
+            int[,] sudoku;
+            sudoku = new int[9, 9];
+            for (int i = 0; i < s.Cellules.Length; i++)
             {
-
-                MatrixList s = new Dlx.MatrixList(s.get());
-                s.search();
-                sudoku.setSudoku(s.convertMatrixSudoku());
-
-                return sudoku;
-
+                for (int j = 0; j < s.Cellules.Length; j++)
+                {
+                    
+                    sudoku[i,j] = s.Cellules[i][j];
+                }
             }
+            MatrixList sudokuMat = new MatrixList(sudoku);
+            sudokuMat.search();
+            int[][] sudokuFin;
+            sudokuFin = new int[9][];
+            sudokuFin = sudokuMat.convertMatrixSudoku();
+
+            return s;
+
+            
         }
+
+    }
     
 
 }

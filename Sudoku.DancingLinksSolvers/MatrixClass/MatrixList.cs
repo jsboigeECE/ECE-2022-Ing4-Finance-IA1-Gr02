@@ -44,7 +44,7 @@ namespace Sudoku.DancingLinksSolvers
                 currentNode = currentNode.right;
                 for (int i = 0; i < grid.GetLength(0); i++)
                 {
-                    if (grid[i, j] == 1)
+                    if (grid[i, j] == 0)
                     {
                         MatrixNode tmp = new MatrixNode((MatrixNodeHead)currentNode.down);
                         tmp.rowIndex = i;
