@@ -16,11 +16,12 @@ namespace Sudoku.Probabilistic
         private static RobustSudokuModel robustModel = new RobustSudokuModel();
 
         GridSudoku ISolverSudoku.Solve(GridSudoku s)
-        { 
-            return robustModel.SolveSudoku(s);
+        {
+            return NaiveSudokuModel.SolveSudoku(s);
         }
     }
 
+    /*
     public class RobustSudokuModel
     {
 
@@ -119,23 +120,6 @@ namespace Sudoku.Probabilistic
 
             CellsPrior.ObservedValue = dirArray;
 
-
-            // Todo: tester en inférant sur d'autres variables aléatoire,
-            // et/ou en ayant une approche itérative: On conserve uniquement les cellules dont les valeurs ont les meilleures probabilités 
-            //et on réinjecte ces valeurs dans CellsPrior comme c'est également fait dans le projet neural nets. 
-            //
-
-            // IFunction draw_categorical(n)// where n is the number of samples to draw from the categorical distribution
-            // {
-            //
-            // r = 1
-
-            /* for (i=0; i<9; i++)
-		        for (j=0; j<9; j++)
-			        for (k=0; k<9; k++)
-				        ps[i][j][k] = probs[i][j][k].p; */
-
-
             //DistributionRefArray<Discrete, int> cellsPosterior = (DistributionRefArray<Discrete, int>)InferenceEngine.Infer(Cells);
             //var cellValues = cellsPosterior.Point.Select(i => i + 1).ToList();
 
@@ -154,9 +138,70 @@ namespace Sudoku.Probabilistic
                     var value = mode.IndexOf(mode.Max()) + 1;
                     s.Cellules[cellIndex] = value;
                 }
+            } */
+
+
+
+    // <summary>
+    /// Ce premier modèle est très faible: d'une part, il ne résout que quelques Sudokus faciles, d'autre part, le modèle est recompilé à chaque fois, ce qui prend beaucoup de temps
+    /// </summary>
+    ///
+
+    public class NaiveSudokuModel
+    {
+
+        private static List<int> CellDomain = Enumerable.Range(1, 9).ToList();
+        private static List<int> CellIndices = Enumerable.Range(0, 81).ToList();
+
+
+        public virtual void SolveSudoku(GridSudoku grille)
+        {
+
+            var algo = new ExpectationPropagation();
+            var engine = new InferenceEngine(algo);
+
+            //Implémentation naïve: une variable aléatoire entière par cellule
+            var cells = new List<Variable<int>>(CellIndices.Count);
+
+            foreach (var cellIndex in GridSudoku.IndicesCellules)
+            {
+                //On initialise le vecteur de probabilités de façon uniforme pour les chiffres de 1 à 9
+                var baseProbas = Enumerable.Repeat(1.0, CellDomain.Count).ToList();
+                //Création et ajout de la variable aléatoire
+                var cell = Variable.Discrete(baseProbas.ToArray());
+                cells.Add(cell);
+
             }
 
+            //Ajout des contraintes de Sudoku (all diff pour tous les voisinages)
+            foreach (var cellIndex in GridSudoku.IndicesCellules)
+            {
+                foreach (var neighbourCellIndex in GridSudoku.VoisinagesParCellule[cellIndex])
+                {
+                    if (neighbourCellIndex > cellIndex)
+                    {
+                        Variable.ConstrainFalse(cells[cellIndex] == cells[neighbourCellIndex]);
+                    }
+                }
+            }
 
+            //On affecte les valeurs fournies par le masque à résoudre comme variables observées
+            foreach (var cellIndex in GridSudoku.IndicesCellules)
+            {
+                if (grille.Cellules[cellIndex] > 0) //pour toutes les cellules de la grille, si la cellule est > 0 
+                {
+                    cells[cellIndex].ObservedValue = grille.Cellules[cellIndex] - 1; //soustraire 1 à la valeur de cette cellule
+                }
+            }
+
+            foreach (var cellIndex in GridSudoku.IndicesCellules)
+            {
+                if (grille.Cellules[cellIndex] == 0) //pour toutes les cellules de la grille, si la cellule est = 0
+                {
+                    var result = (Discrete)engine.Infer(cells[cellIndex]); //creation d'une variable resultat
+                    grille.Cellules[cellIndex] = result.Point + 1; //additionner 1 à resultat
+                }
+            }
         }
-
     }
+}
