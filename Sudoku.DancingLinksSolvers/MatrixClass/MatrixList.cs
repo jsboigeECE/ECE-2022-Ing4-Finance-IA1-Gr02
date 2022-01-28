@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace Sudoku.DancingLinksSolvers
 {
@@ -40,7 +41,7 @@ namespace Sudoku.DancingLinksSolvers
             for (int j = 0; j < grid.GetLength(1); j++)
             {
                 cpt = 0;
-                //Console.WriteLine(((MatrixNodeHead)currentNode).name);
+                Console.WriteLine(((MatrixNodeHead)currentNode).name);
                 currentNode = currentNode.right;
                 for (int i = 0; i < grid.GetLength(0); i++)
                 {
@@ -323,7 +324,7 @@ namespace Sudoku.DancingLinksSolvers
         {
             node.left.right = node.right;
             node.right.left = node.left;
-            ///Console.WriteLine("depart : " + node.name);
+            //Console.WriteLine("depart : " + node.name);
             for (MatrixNode iNode = node.down; iNode != node; iNode = iNode.down)
             {
                 for (MatrixNode jNode = iNode.right; jNode != iNode; jNode = jNode.right)
@@ -331,15 +332,15 @@ namespace Sudoku.DancingLinksSolvers
                     jNode.up.down = jNode.down;
                     jNode.down.up = jNode.up;
                     jNode.item.size--;
-                    //Console.WriteLine("ici : "+ currentNode.item.name);
+                    //Console.WriteLine("ici : "+ node.name);
                 }
-                //Console.WriteLine("Balade : " + ((MatrixNodeHead)currentNode).name);
+                //Console.WriteLine("Balade : " + ((MatrixNodeHead)node).name);
             }
         }
 
         private void uncover(MatrixNodeHead node)
         {
-            ///Console.WriteLine("depart : " + node.name);
+            //Console.WriteLine("depart : " + node.name);
             for (MatrixNode iNode = node.down; iNode != node; iNode = iNode.down)
             {
                 for (MatrixNode jNode = iNode.right; jNode != iNode; jNode = jNode.right)
@@ -347,9 +348,9 @@ namespace Sudoku.DancingLinksSolvers
                     jNode.up.down = jNode;
                     jNode.down.up = jNode;
                     jNode.item.size++;
-                    //Console.WriteLine("ici : "+ currentNode.item.name);
+                    //Console.WriteLine("ici : "+ node.name);
                 }
-                //Console.WriteLine("Balade : " + ((MatrixNodeHead)currentNode).name);
+                //Console.WriteLine("Balade : " + ((MatrixNodeHead)node).name);
             }
             node.left.right = node;
             node.right.left = node;

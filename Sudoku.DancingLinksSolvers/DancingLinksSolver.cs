@@ -291,21 +291,19 @@ namespace Sudoku.DancingLinksSolvers {
         }
         protected GridSudoku SolverDancingLinksBetter(Shared.GridSudoku s) {
 
-            int[,] sudoku;
-            sudoku = new int[9, 9];
+            MatrixList sudokuMat = new MatrixList(s.Cellules);
+            sudokuMat.search();
+            
+            s.Cellules = sudokuMat.convertMatrixSudoku();
+
             for (int i = 0; i < s.Cellules.Length; i++)
             {
                 for (int j = 0; j < s.Cellules.Length; j++)
                 {
-                    
-                    sudoku[i,j] = s.Cellules[i][j];
+
+                    //s.Cellules[i][j] = sudokuFin[i][j];
                 }
             }
-            MatrixList sudokuMat = new MatrixList(sudoku);
-            sudokuMat.search();
-            int[][] sudokuFin;
-            sudokuFin = new int[9][];
-            sudokuFin = sudokuMat.convertMatrixSudoku();
 
             return s;
 
