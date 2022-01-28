@@ -6,7 +6,7 @@ using Microsoft.ML.Probabilistic.Math;
 using Microsoft.ML.Probabilistic.Models;
 using Microsoft.ML.Probabilistic.Models.Attributes;
 using System.Collections.Generic;
-    using Sudoku.Core;
+//using Sudoku.Core;
 
 namespace Sudoku.Probabilistic
 {
@@ -15,13 +15,17 @@ namespace Sudoku.Probabilistic
     {
 
         private static NaiveSudokuModel naiveModel = new NaiveSudokuModel();
+        //private static RobustSudokuModel robustModel = new RobustSudokuModel();
 
         GridSudoku ISolverSudoku.Solve(GridSudoku s)
         {
-            return NaiveSudokuModel.SolveSudoku(s);
+            //var naiveSolver = new NaiveSudokuModel();
+            //var robustSolver = new RobustSudokuModel();
+            naiveModel.SolveSudoku(s);
+            //robustSolver.SolveSudoku(s);
+            return s.CloneSudoku();
         }
     }
-
 
 
     /*
@@ -199,7 +203,7 @@ namespace Sudoku.Probabilistic
         private static List<int> CellDomain = Enumerable.Range(1, 9).ToList();
         private static List<int> CellIndices = Enumerable.Range(0, 81).ToList();
 
-
+        //protected Shared.GridSudoku SolveSudoku(Shared.GridSudoku s)
         public virtual void SolveSudoku(GridSudoku s)
         {
 
@@ -210,7 +214,7 @@ namespace Sudoku.Probabilistic
             var cells = new List<Variable<int>>(CellIndices.Count);
 
 
-            for (var cellIndex = 0; cellIndex < 80; cellIndex++)
+            for (int cellIndex = 0; cellIndex < 80; cellIndex++)
             {
                 //On initialise le vecteur de probabilités de façon uniforme pour les chiffres de 1 à 9
                 var baseProbas = Enumerable.Repeat(1.0, CellDomain.Count).ToList();
@@ -221,9 +225,9 @@ namespace Sudoku.Probabilistic
             }
 
             //Ajout des contraintes de Sudoku (all diff pour tous les voisinages)
-            for (var rowIndex = 0; rowIndex < 9; rowIndex++)
+            for (int rowIndex = 0; rowIndex < 9; rowIndex++)
             {
-                for (var colIndex = 0; colIndex < 9; colIndex++)
+                for (int colIndex = 0; colIndex < 9; colIndex++)
                 {
                     foreach (var neighbourCellIndex in GridSudoku.CellNeighbours[rowIndex][colIndex])
                     {
@@ -251,9 +255,9 @@ namespace Sudoku.Probabilistic
                 }
             }*/
 
-            for (var rowIndex = 0; rowIndex < 9; rowIndex++)
+            for (int rowIndex = 0; rowIndex < 9; rowIndex++)
             {
-                for (var colIndex = 0; colIndex < 9; colIndex++)
+                for (int colIndex = 0; colIndex < 9; colIndex++)
                 {
                     var cellIndex80 = rowIndex * 9 + colIndex;
                     if (s.Cellules[rowIndex][colIndex] > 0)
@@ -273,14 +277,14 @@ namespace Sudoku.Probabilistic
                 }
             }*/
 
-            for (var rowIndex = 0; rowIndex < 9; rowIndex++)
+            for (int rowIndex = 0; rowIndex < 9; rowIndex++)
             {
-                for (var colIndex = 0; colIndex < 9; colIndex++)
+                for (int colIndex = 0; colIndex < 9; colIndex++)
                 {
-                    var cellIndex80 = rowIndex * 9 + colIndex;
+                    int cellIndex80 = (rowIndex * 9) + colIndex;
                     if (s.Cellules[rowIndex][colIndex] == 0)
                     {
-                        var result = (Discrete)engine.Infer(cells[cellIndex80]);
+                        Discrete result = (Discrete)engine.Infer(cells[cellIndex80]);
                         s.Cellules[rowIndex][colIndex] = result.Point + 1;
                     }
                 }
@@ -295,6 +299,7 @@ namespace Sudoku.Probabilistic
                     s.Cellules[cellIndex] = result.Point + 1;
                 }
             }*/
+
         }
     }
 }
