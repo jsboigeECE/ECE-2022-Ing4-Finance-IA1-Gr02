@@ -15,30 +15,21 @@ namespace Sudoku.Graphecolore
             try
             {
                 // Chargement du réseau et affichage avant coloration
-                Reseau reseau = new Reseau(grid);
+                Graphe graphe = new Graphe(grid);
+                Console.WriteLine();
                 Console.WriteLine("Affichage de la grille a completer");
-                reseau.displayGrid();
+                graphe.displayGrid();
 
-                // Coloration algorithme naif et affichage
-                int nbFreq;
-                reseau.reinitGrid();
-                reseau.attribuerNaif(out nbFreq);
-                Console.WriteLine("Algo naif : " + nbFreq + " couleurs utilisees");
-//                reseau.display();
-                reseau.displayGrid();
-//                reseau.updateGrid(ref grid);
-
-                // Coloration algorithme naif3 et affichage
-                int nbFreq3;
-                reseau.reinitGrid();
-                reseau.displayGrid();
-                Console.WriteLine("Algo naif 3");
-                //reseau.attribuerNaif3(out nbFreq3);
-                //Console.WriteLine("Algo naif 3 : " + nbFreq3 + " couleurs utilisees");
-//                reseau.display();
-                reseau.displayGrid();
-//                reseau.updateGrid(ref grid);
-
+                // Coloration algorithme naif optimisé
+                Console.WriteLine("Parcours du graphe en utilisant un algorithme naif optimise");
+                graphe.algoNaifOptimise();
+                Console.WriteLine("Affichage du resultat");
+                graphe.displayGrid();
+                Console.WriteLine();
+                // Mise à jour de la grille résultat
+                graphe.updateGrid();
+                Console.WriteLine("Verification du resultat");
+                return graphe.getGrid();
             }
             catch (Exception e)
             {
@@ -50,7 +41,7 @@ namespace Sudoku.Graphecolore
 
 
     // La classe Sommet représente un sommet du graphe
-    // Les adjacences sont déduites des positions ligne,colonne des Sommets
+    // Les cases adjacences sont déduites des positions ligne,colonne des Sommets
     public class Sommet
     {
         // Voisinage : liste d'adjacence
@@ -85,10 +76,10 @@ namespace Sudoku.Graphecolore
             {
                 if (s != this)
                 {
-                    if ( s.m_ligne == m_ligne || s.m_colonne == m_colonne || s.m_id == m_id)
+                    if (s.m_ligne == m_ligne || s.m_colonne == m_colonne || s.m_id == m_id)
                         m_adjacents.Add(s);
                 }
-            }                
+            }
         }
 
         // Retourne la ligne dans la grille actuellement affectée au sommet
@@ -122,7 +113,7 @@ namespace Sudoku.Graphecolore
         public bool testCouleur(int couleur)
         {
             foreach (Sommet s in m_adjacents)
-                if ( s.m_couleur == couleur )
+                if (s.m_couleur == couleur)
                     return false;
             return true;
         }
@@ -138,45 +129,18 @@ namespace Sudoku.Graphecolore
     }
 
 
-    // La classe Reseau représente un graphe dans son ensemble
-    public class Reseau
+    // La classe Graphe représente un graphe dans son ensemble
+    public class Graphe
     {
         /// Le réseau est constitué d'une collection de sommets
         List<Sommet> m_sommets;
         GridSudoku m_grid;
 
-        public void updateGrid(ref GridSudoku grid)
-        {
-            foreach (Sommet s in m_sommets)
-                grid.Cellules[s.getLigne()][s.getColonne()] = s.getCouleur();
-        }
-
         /// La construction du réseau se fait à partir d'une grille Sudoku
-        public Reseau(GridSudoku grid)
+        public Graphe(GridSudoku grid)
         {
-            m_grid = grid;
+            m_grid = grid.CloneSudoku();
             reinitGrid();
-        }
-
-        public void reinitGrid()
-        {
-            m_sommets = new List<Sommet>();
-            int bloc = 0;
-            for (int ligne=0; ligne<9; ligne++)
-                for (int colonne=0; colonne<9; colonne++)
-                    {
-                        if (ligne < 3)
-                            bloc = (int)(colonne/3);
-                        else if (ligne < 6)
-                            bloc = 3 + (int)(colonne/3);
-                        else if (ligne < 9)
-                            bloc = 6 + (int)(colonne/3);
-                        m_sommets.Add(new Sommet(bloc, ligne, colonne, m_grid.Cellules[ligne][colonne]));
-                    }
-            foreach (Sommet s in m_sommets)
-            {
-                s.determineAdjacents(m_sommets);
-            }
         }
 
         // Retourne l'ordre du graphe (ordre = nombre de sommets)
@@ -185,10 +149,10 @@ namespace Sudoku.Graphecolore
             return m_sommets.Count;
         }
 
-        // Méthode d'affichage des objets de type Reseau
+        // Méthode d'affichage des objets de type Graphe
         public void display()
         {
-            Console.WriteLine("Reseau d'ordre " + getOrdre() + " :");
+            Console.WriteLine("Graphe d'ordre " + getOrdre() + " :");
             foreach (Sommet s in m_sommets)
                 s.display();
             Console.WriteLine();
@@ -197,105 +161,155 @@ namespace Sudoku.Graphecolore
         public void displayGrid()
         {
             Console.WriteLine("----------------------------------");
-            int i=0;
+            int i = 0;
             foreach (Sommet s in m_sommets)
             {
-                if (i%3 == 0)
+                if (i % 3 == 0)
                     Console.Write("| ");
                 Console.Write("{0,2:#0} ", s.getCouleur());
                 i++;
-                if (i%9 == 0)
+                if (i % 9 == 0)
                     Console.WriteLine("|");
-                if (i%27 == 0)
+                if (i % 27 == 0)
                     Console.WriteLine("----------------------------------");
             }
             Console.WriteLine();
         }
 
-        public void attribuerNaif(out int nbcouleurs)
+        public void reinitGrid()
         {
-            int couleur;
-            nbcouleurs = 0;
-
-            // On parcourt la liste des adjacents
+            m_sommets = new List<Sommet>();
+            int bloc = 0;
+            for (int ligne = 0; ligne < 9; ligne++)
+                for (int colonne = 0; colonne < 9; colonne++)
+                {
+                    if (ligne < 3)
+                        bloc = (int)(colonne / 3);
+                    else if (ligne < 6)
+                        bloc = 3 + (int)(colonne / 3);
+                    else if (ligne < 9)
+                        bloc = 6 + (int)(colonne / 3);
+                    m_sommets.Add(new Sommet(bloc, ligne, colonne, m_grid.Cellules[ligne][colonne]));
+                }
             foreach (Sommet s in m_sommets)
             {
-                couleur = 1;
-                // "Coloration du graphe". On attribue à chaque sommet une couleur, selon les conditions.
-                while (s.getCouleur() == 0)
-                {
-                    // S'il n'y a pas de conflits entre les sommets voisins, on peut affecter la couleur
-                    if (s.testCouleur(couleur))
-                        s.setCouleur(couleur);
-                    else    // Sinon on augmente la couleur
-                        ++couleur;
-                }
-                // On cherche le nombre de couleurs
-                if (s.getCouleur() > nbcouleurs)
-                    nbcouleurs = s.getCouleur();
+                s.determineAdjacents(m_sommets);
             }
         }
 
-        public void attribuerNaif3(out int nbcouleurs)
+        public void updateGrid()
         {
-            int couleur;
-            int couleurDebut = 1;
-            nbcouleurs = 0;
-            int nbOk = 0;
-            int iteration;
+            for (int i=0; i<m_sommets.Count; i++)
+                m_grid.Cellules[(int)(i/9)][i%9] = m_sommets.ElementAt(i).getCouleur();
+        }
 
-            // On parcourt la liste des adjacents
-            while (nbOk < 81)
+        public GridSudoku getGrid()
+        {
+            return m_grid;
+        }
+
+        public void display_m_grid()
+        {
+            Console.WriteLine("----------------------------------");
+            int i = 0;
+            for (int ligne=0; ligne<9; ligne++)
             {
-                foreach (Sommet s in m_sommets)
+                for (int colonne=0; colonne<9; colonne++)
                 {
-                    couleur = couleurDebut;
-                    // "Coloration du graphe". On attribue à chaque sommet une couleur, selon les conditions.
-                    iteration = 0;
-                    do
+                    i = (ligne*9) + colonne; 
+                    if (i % 3 == 0)
+                        Console.Write("| ");
+                    Console.Write("{0,2:#0} ", m_grid.Cellules[ligne][colonne]);
+                    i++;
+                    if (i % 9 == 0)
+                        Console.WriteLine("|");
+                    if (i % 27 == 0)
+                        Console.WriteLine("----------------------------------");
+                }
+            }
+            Console.WriteLine();
+        }
+
+        public int algoNaifOptimise()
+        {
+            // Si la première case contient déjà une couleur,
+            // on lance l'algorithme sur cette couleur
+            if (m_sommets.First().getCouleur() != 0)
+                return attribuerCouleurGraphe(0, 0, m_sommets.First().getCouleur());
+            else
+            {
+                // On lance l'algorithme en testant l'ensemble des couleurs de 1 à 9
+                // sur la première case
+                for (int colour=1; colour<=9; colour++)
+                {
+                    int nbOk = attribuerCouleurGraphe(0, 0, colour);
+                    if (nbOk == 81)
+                        return 81;
+                }
+            }
+            return 0;
+        }
+
+        public int attribuerCouleurGraphe(int nbOk, int nbCouleurs, int couleur)
+        {
+            // On parcourt la liste des sommets
+            Sommet s = m_sommets.ElementAt(nbOk);
+
+            int couleurBackup = 0;
+            // On vérifie si la case a déjà une couleur issue de la grille initiale
+            // Si oui, on sauvegarde sa couleur
+            if (s.getCouleur() != 0)
+                couleurBackup = s.getCouleur();
+            else
+            {
+                // On teste la couleur passée en paramètre auprès des adjacents
+                if (s.testCouleur(couleur))
+                {
+                    // La couleur n'est pas déjà utilisée par un adjacent
+                    // On sauvegarde l'absence de couleur
+                    couleurBackup = 0;
+                    // Puis on affecte la couleur à la case
+                    s.setCouleur(couleur);
+                }
+            }
+            // On vérifie si la case a désormais une couleur
+            if (s.getCouleur() != 0)
+            {
+                // On met à jour le nombre de couleurs
+                nbCouleurs++;
+                nbOk++;
+                // Console.WriteLine("nbOk = " + nbOk + " - nbCouleurs = " + nbCouleurs + " - couleur = " + s.getCouleur());
+                // displayGrid();
+                // Console.WriteLine();
+                if (nbOk == 81)
+                    return nbOk;
+                // Si le nombre de couleurs est à 9, on a une ligne complète
+                // On réinitialise le nombre de couleurs à 0
+                nbCouleurs = nbCouleurs % 9;
+
+                // Si la case suivante contient déjà une couleur,
+                // on lance l'algorithme sur cette couleur
+                if (m_sommets.ElementAt(nbOk).getCouleur() != 0)
+                {
+                    if (attribuerCouleurGraphe(nbOk, nbCouleurs, m_sommets.ElementAt(nbOk).getCouleur()) == 81)
+                        return 81;
+                }
+                else
+                {
+                    // On lance l'algorithme en testant l'ensemble des couleurs de 1 à 9
+                    // sur la case suivante
+                    for (int colour=1; colour<=9; colour++)
                     {
-                        if (s.getCouleur() != 0)
-                        {
-                            // La couleur présente dans la grille source
-                            // On met à jour le nombre de couleurs
-                            nbcouleurs++;
-                            nbOk++;
-                        }
-                        else if (s.testCouleur(couleur))
-                        {
-                            // S'il n'y a pas de conflits entre les sommets voisins, on peut affecter la couleur
-                            s.setCouleur(couleur);
-                            // On met à jour le nombre de couleurs
-                            nbcouleurs++;
-                            nbOk++;
-                        }
-                        else    // Sinon on augmente la couleur
-                            couleur = 1 + (couleur++)%9;
-                        iteration++;
-                    } while (s.getCouleur() == 0 && iteration < 9);
-                    Console.WriteLine("nbOk = " + nbOk);
-                    displayGrid();
-                    if (nbOk >= 7)
-                    {
-                        Console.WriteLine("nbOk = " + nbOk);
-                        displayGrid();
-                        Console.WriteLine();
+                        if (attribuerCouleurGraphe(nbOk, nbCouleurs, colour) == 81)
+                            return 81;
                     }
-                    if (iteration == 9 && nbOk%9 == 0)
-                        iteration = 0;
-//                    else if (nbOk%9 != 0)
-//                        break;
                 }
-                if (nbOk < 81)
-                {
-                    couleurDebut++;
-                    if (couleurDebut > 9)
-                        couleurDebut = 1;
-                    reinitGrid();
-                    nbcouleurs = 0;
-                    nbOk = 0;
-                }
-            }    
+
+                // Si on arrive ici, c'est que la résolution a échoué
+                // On restaure la couleur initiale de la case (ou l'absence de couleur)
+                s.setCouleur(couleurBackup);
+            }
+            return nbOk;
         }
     }
 }
