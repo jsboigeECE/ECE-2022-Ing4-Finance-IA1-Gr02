@@ -1,4 +1,5 @@
 from ortools.linear_solver import pywraplp
+import numpy as np
 
 def solve_with_ip(grid: np.ndarray) -> (np.ndarray, float):
     '''Solve Sudoku instance (np.matrix) with IP modeling. Returns a tuple with the resulting matrix and the execution time in seconds.'''
@@ -61,8 +62,22 @@ def solve_with_ip(grid: np.ndarray) -> (np.ndarray, float):
 
     return result, exec_time.total_seconds()
 
+
+# exemple de variable qui est définie par le csharp avant exécution du script
+#grid = ((0,0,0,0,9,4,0,3,0),
+#            (0,0,0,5,1,0,0,0,7),
+#            (0,8,9,0,0,0,0,4,0),
+#            (0,0,0,0,0,0,2,0,8),
+#            (0,6,0,2,0,1,0,5,0),
+#            (1,0,2,0,0,0,0,0,0),
+#            (0,7,0,0,0,0,5,2,0),
+#            (9,0,0,0,6,5,0,0,0),
+#            (0,4,0,9,7,0,0,0,0))
+
+
+
 #res, _ = solve_with_ip(decoded_puzzle)
 #ip_solution = encode_sudoku(res) 
 
-#assert ip_solution == sample['solution'] # must show the same solution for the puzzle found on the dataset
-#res
+# exemple de construction du résultat (remplacer le début par le parcours a proprié du résultat de l'inférence
+#r = [ [ m.evaluate(X[i][j]).as_long() for j in range(9) ] for i in range(9) ]

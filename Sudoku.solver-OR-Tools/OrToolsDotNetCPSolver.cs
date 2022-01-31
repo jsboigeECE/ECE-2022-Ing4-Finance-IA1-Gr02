@@ -6,7 +6,7 @@ using Sudoku.Shared;
 
 namespace Sudoku.solver_OR_Tools
 {
-    public class OrToolsSolver : ISolverSudoku
+    public class OrToolsDotNetCPSolver : ISolverSudoku
     {
 
         public Shared.GridSudoku Solve(Shared.GridSudoku sudoku)
@@ -97,36 +97,6 @@ namespace Sudoku.solver_OR_Tools
         }
 
 
-    }
-
-
-    public class OrToolsOptimal : ISolverSudoku
-    {
-        public override GridSudoku Solve(GridSudoku s)
-        {
-            return SolveOR_Tools_Optimal(s);
-        }
-
-        private gridsudoku solveor_tools_optimal(gridsudoku s)
-        {
-            using (pymodule scope = py.createscope())
-            {
-                // convert the person object to a pyobject
-                pyobject pycells = s.cellules.topython();
-
-                // create a python variable "person"
-                scope.set("grid", pycells);
-
-                // the person object may now be used in python
-                string code = resources.optimal.py;
-                scope.exec(code);
-                var result = scope.get("r");
-                var managedresult = result.as< int[][] > ();
-                //var convertesdresult = managedresult.select(objlist => objlist.select(o => (int)o).toarray()).toarray();
-                return new shared.gridsudoku() { cellules = managedresult };
-            }
-            throw new notimplementedexception();
-        }
     }
 }
 
