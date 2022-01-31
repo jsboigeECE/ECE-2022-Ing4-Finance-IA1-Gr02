@@ -1,9 +1,6 @@
 ﻿using System;
-using Sudoku;
 using Sudoku.Shared;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 
 namespace Sudoku.Graphecolore
@@ -26,8 +23,6 @@ namespace Sudoku.Graphecolore
                 Console.WriteLine("Affichage du resultat");
                 graphe.displayGrid();
                 Console.WriteLine();
-                // Mise à jour de la grille résultat
-                graphe.updateGrid();
                 Console.WriteLine("Verification du resultat");
                 return graphe.getGrid();
             }
@@ -48,50 +43,25 @@ namespace Sudoku.Graphecolore
         List<Sommet> m_adjacents;
 
         // Données spécifiques du sommet
-        int m_id;        // Indice de la case dans la grille (de 0 à 80)
+        int m_id;               // Indice de la case dans la grille (de 0 à 80)
+        int m_couleur;          // Couleur affectée (ou 0 si pas encore de couleur)
         int m_ligne, m_colonne; // Position dans la grille
-        int m_couleur; // couleur affectée (ou 0 si pas encore de couleur)
+        int m_bloc;             // Numéro du bloc d'appartenance (carré 3x3)
 
         // Constructeur
-        public Sommet(int indice, int ligne, int colonne, int couleur)
+        public Sommet(int id, int couleur)
         {
-            m_id = indice;
-            m_ligne = ligne;
-            m_colonne = colonne;
+            m_id = id;
             m_couleur = couleur;
+            m_ligne = (int)(m_id/9);
+            m_colonne = m_id%9;
+            if (m_ligne < 3)
+                m_bloc = (int)(m_colonne / 3);
+            else if (m_ligne < 6)
+                m_bloc = 3 + (int)(m_colonne / 3);
+            else if (m_ligne < 9)
+                m_bloc = 6 + (int)(m_colonne / 3);
             m_adjacents = new List<Sommet>();
-        }
-
-        // Retourne la liste des adjacents
-        public List<Sommet> getAdjacents()
-        {
-            return m_adjacents;
-        }
-
-        // Méthode de détermination des sommets adjacents
-        public void determineAdjacents(List<Sommet> sommets)
-        {
-            m_adjacents = new List<Sommet>();
-            foreach (Sommet s in sommets)
-            {
-                if (s != this)
-                {
-                    if (s.m_ligne == m_ligne || s.m_colonne == m_colonne || s.m_id == m_id)
-                        m_adjacents.Add(s);
-                }
-            }
-        }
-
-        // Retourne la ligne dans la grille actuellement affectée au sommet
-        public int getLigne()
-        {
-            return m_ligne;
-        }
-
-        // Retourne la colonne dans la grille actuellement affectée au sommet
-        public int getColonne()
-        {
-            return m_ligne;
         }
 
         // Retourne la couleur (numéro de couleur) actuellement affecté au sommet
@@ -118,13 +88,18 @@ namespace Sudoku.Graphecolore
             return true;
         }
 
-        // Méthode d'affichage des objets de type Sommet
-        public void display()
+        // Méthode de détermination des sommets adjacents
+        public void determineAdjacents(List<Sommet> sommets)
         {
-            Console.Write("id " + m_id + "  ligne=" + m_ligne + "  colonne=" + m_colonne + "  couleur=" + m_couleur + "  Adjacents=");
-            foreach (Sommet s in m_adjacents)
-                Console.Write(s.m_id + " ");
-            Console.WriteLine("");
+            m_adjacents = new List<Sommet>();
+            foreach (Sommet s in sommets)
+            {
+                if (s != this)
+                {
+                    if (s.m_ligne == m_ligne || s.m_colonne == m_colonne || s.m_bloc == m_bloc)
+                        m_adjacents.Add(s);
+                }
+            }
         }
     }
 
@@ -135,27 +110,36 @@ namespace Sudoku.Graphecolore
         /// Le réseau est constitué d'une collection de sommets
         List<Sommet> m_sommets;
         GridSudoku m_grid;
+        public const int m_ordre = 81;
 
         /// La construction du réseau se fait à partir d'une grille Sudoku
         public Graphe(GridSudoku grid)
         {
             m_grid = grid.CloneSudoku();
-            reinitGrid();
+            initGraphe();
         }
 
-        // Retourne l'ordre du graphe (ordre = nombre de sommets)
-        public int getOrdre()
+        // Ajout de l'ensemble des sommets dans le graphe
+        void initGraphe()
         {
-            return m_sommets.Count;
-        }
-
-        // Méthode d'affichage des objets de type Graphe
-        public void display()
-        {
-            Console.WriteLine("Graphe d'ordre " + getOrdre() + " :");
+            m_sommets = new List<Sommet>();
+            int ligne, colonne;
+            for (int i=0; i<m_ordre; i++)
+            {
+                ligne = (int)(i/9);
+                colonne = i%9;
+                m_sommets.Add(new Sommet(i, m_grid.Cellules[ligne][colonne]));
+            }
             foreach (Sommet s in m_sommets)
-                s.display();
-            Console.WriteLine();
+            {
+                s.determineAdjacents(m_sommets);
+            }
+        }
+
+        // Retourne l'objet GridSudoku contenant la grille Sudoku à valider du graphe
+        public GridSudoku getGrid()
+        {
+            return m_grid;
         }
 
         public void displayGrid()
@@ -176,81 +160,33 @@ namespace Sudoku.Graphecolore
             Console.WriteLine();
         }
 
-        public void reinitGrid()
-        {
-            m_sommets = new List<Sommet>();
-            int bloc = 0;
-            for (int ligne = 0; ligne < 9; ligne++)
-                for (int colonne = 0; colonne < 9; colonne++)
-                {
-                    if (ligne < 3)
-                        bloc = (int)(colonne / 3);
-                    else if (ligne < 6)
-                        bloc = 3 + (int)(colonne / 3);
-                    else if (ligne < 9)
-                        bloc = 6 + (int)(colonne / 3);
-                    m_sommets.Add(new Sommet(bloc, ligne, colonne, m_grid.Cellules[ligne][colonne]));
-                }
-            foreach (Sommet s in m_sommets)
-            {
-                s.determineAdjacents(m_sommets);
-            }
-        }
-
-        public void updateGrid()
-        {
-            for (int i=0; i<m_sommets.Count; i++)
-                m_grid.Cellules[(int)(i/9)][i%9] = m_sommets.ElementAt(i).getCouleur();
-        }
-
-        public GridSudoku getGrid()
-        {
-            return m_grid;
-        }
-
-        public void display_m_grid()
-        {
-            Console.WriteLine("----------------------------------");
-            int i = 0;
-            for (int ligne=0; ligne<9; ligne++)
-            {
-                for (int colonne=0; colonne<9; colonne++)
-                {
-                    i = (ligne*9) + colonne; 
-                    if (i % 3 == 0)
-                        Console.Write("| ");
-                    Console.Write("{0,2:#0} ", m_grid.Cellules[ligne][colonne]);
-                    i++;
-                    if (i % 9 == 0)
-                        Console.WriteLine("|");
-                    if (i % 27 == 0)
-                        Console.WriteLine("----------------------------------");
-                }
-            }
-            Console.WriteLine();
-        }
-
-        public int algoNaifOptimise()
+        public void algoNaifOptimise()
         {
             // Si la première case contient déjà une couleur,
             // on lance l'algorithme sur cette couleur
             if (m_sommets.First().getCouleur() != 0)
-                return attribuerCouleurGraphe(0, 0, m_sommets.First().getCouleur());
+                attribuerCouleurGraphe(0, 0, m_sommets.First().getCouleur());
             else
             {
                 // On lance l'algorithme en testant l'ensemble des couleurs de 1 à 9
                 // sur la première case
                 for (int colour=1; colour<=9; colour++)
                 {
-                    int nbOk = attribuerCouleurGraphe(0, 0, colour);
-                    if (nbOk == 81)
-                        return 81;
+                    if (attribuerCouleurGraphe(0, 0, colour))
+                    {
+                        break;
+                    }
                 }
             }
-            return 0;
+            // On a trouvé la solution. On met à jour la grille
+            for (int i=0; i<m_sommets.Count; i++)
+                m_grid.Cellules[(int)(i/9)][i%9] = m_sommets.ElementAt(i).getCouleur();
         }
 
-        public int attribuerCouleurGraphe(int nbOk, int nbCouleurs, int couleur)
+        // Cette fonction renvoie :
+        //      - true si le graphe a pu être entièrement complété
+        //      - false sinon
+        bool attribuerCouleurGraphe(int nbOk, int nbCouleurs, int couleur)
         {
             // On parcourt la liste des sommets
             Sommet s = m_sommets.ElementAt(nbOk);
@@ -278,11 +214,9 @@ namespace Sudoku.Graphecolore
                 // On met à jour le nombre de couleurs
                 nbCouleurs++;
                 nbOk++;
-                // Console.WriteLine("nbOk = " + nbOk + " - nbCouleurs = " + nbCouleurs + " - couleur = " + s.getCouleur());
-                // displayGrid();
-                // Console.WriteLine();
-                if (nbOk == 81)
-                    return nbOk;
+                // Si nbOk == m_ordre, on a rempli la grille Sudoko
+                if (nbOk == m_ordre)
+                    return true;
                 // Si le nombre de couleurs est à 9, on a une ligne complète
                 // On réinitialise le nombre de couleurs à 0
                 nbCouleurs = nbCouleurs % 9;
@@ -291,8 +225,8 @@ namespace Sudoku.Graphecolore
                 // on lance l'algorithme sur cette couleur
                 if (m_sommets.ElementAt(nbOk).getCouleur() != 0)
                 {
-                    if (attribuerCouleurGraphe(nbOk, nbCouleurs, m_sommets.ElementAt(nbOk).getCouleur()) == 81)
-                        return 81;
+                    if (attribuerCouleurGraphe(nbOk, nbCouleurs, m_sommets.ElementAt(nbOk).getCouleur()))
+                        return true;
                 }
                 else
                 {
@@ -300,8 +234,8 @@ namespace Sudoku.Graphecolore
                     // sur la case suivante
                     for (int colour=1; colour<=9; colour++)
                     {
-                        if (attribuerCouleurGraphe(nbOk, nbCouleurs, colour) == 81)
-                            return 81;
+                        if (attribuerCouleurGraphe(nbOk, nbCouleurs, colour))
+                            return true;
                     }
                 }
 
@@ -309,7 +243,7 @@ namespace Sudoku.Graphecolore
                 // On restaure la couleur initiale de la case (ou l'absence de couleur)
                 s.setCouleur(couleurBackup);
             }
-            return nbOk;
+            return (nbOk == m_ordre);
         }
     }
 }
