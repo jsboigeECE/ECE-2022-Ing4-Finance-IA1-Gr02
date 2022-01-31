@@ -178,7 +178,7 @@ namespace Sudoku.GeneticSharpsSolver
                 {
                    
                     // Permutation should be compatible with current row extended mask domains
-                    if (Range9.All(j => ExtendedMask[(i,j)].Contains(perm[j])))#probleme
+                    if (Range9.All(j => ExtendedMask[(i,j)].Contains(perm[j])))
                     { 
                         tempList.Add(perm);
                     }
