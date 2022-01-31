@@ -47,12 +47,12 @@ namespace Sudoku.GeneticSharpsSolver
         }
     }
 
-    public class PermutationsChromosome : ISolverSudoku
+    public class PermutationsChromosomeSolver : ISolverSudoku
     {
         public GridSudoku Solve(GridSudoku s)
         {
 
-            var populationSize = 500;
+            var populationSize = 1000;
             var fitnessThreshold = 0;
             var generationNb = 50;
 
