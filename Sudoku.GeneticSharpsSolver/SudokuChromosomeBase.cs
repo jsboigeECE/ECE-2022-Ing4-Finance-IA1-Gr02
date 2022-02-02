@@ -78,40 +78,7 @@ namespace Sudoku.GeneticSharpsSolver
                     if (_targetGridSudoku != null)
                     {
 
-                        //If target sudoku mask is provided, we generate an inverted mask with forbidden values by propagating rows, columns and boxes constraints
-                        //var forbiddenMask = new Dictionary<(int row, int column), List<int>>();
-                        //List<int> targetList = null;
-
-                        //for (int row = 0; row < 9; row++)
-                        //{
-                        //    for (int col = 0; col < 9; col++)
-                        //    {
-                        //        var targetCell = _targetGridSudoku.Cellules[row][col];
-                        //        if (targetCell != 0)
-                        //        {
-                        //            //We parallelize going through all 3 constraint neighborhoods
-
-                        //            //var boxStartIdx = (index / 27 * 27) + (index % 9 / 3 * 3);
-                        //            var voisins = GridSudoku.CellNeighbours[row][col];
-
-                        //            foreach (var voisin in voisins)
-                        //            {
-
-                        //                if (!forbiddenMask.TryGetValue(voisin, out targetList))
-                        //                {
-                        //                    //If the current neighbor cell does not have a forbidden values list, we create it
-                        //                    targetList = new List<int>();
-                        //                    forbiddenMask[voisin] = targetList;
-                        //                }
-                        //                if (!targetList.Contains(targetCell))
-                        //                {
-                        //                    // We add current cell value to the neighbor cell forbidden values
-                        //                    targetList.Add(targetCell);
-                        //                }
-                        //            }
-                        //        }
-                        //    }
-                        //}
+                        
 
                         for (int row = 0; row < 9; row++)
                         {
@@ -120,12 +87,6 @@ namespace Sudoku.GeneticSharpsSolver
                                 extendedMask[(row,col)] = _targetGridSudoku.GetAvailableNumbers(row, col).ToList();
                             }
                         }
-
-                            // We invert the forbidden values mask to obtain the cell permitted values domains
-                        //    for (var index = 0; index < _targetGridSudoku.Cells.Count; index++)
-                        //{
-                        //    extendedMask[index] = indices.Where(i => !forbiddenMask[index].Contains(i)).ToList();
-                        //}
 
                     }
                     else
