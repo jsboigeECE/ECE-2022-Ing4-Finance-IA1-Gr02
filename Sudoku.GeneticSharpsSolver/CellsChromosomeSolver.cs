@@ -13,37 +13,46 @@ namespace Sudoku.GeneticSharpsSolver
     {
         public GridSudoku Solve(GridSudoku s)
         {
-
+            GridSudoku toReturn = s;
             var populationSize = 500;
-            var fitnessThreshold = 0;
-            var generationNb = 50;
-
-            var sudokuChromosome = new SudokuCellsChromosome(s);
-            var fitness = new SudokuFitness(s);
-            var selection = new EliteSelection();
-            var crossover = new UniformCrossover();
-            var mutation = new UniformMutation();
-
-            var population = new Population(populationSize, populationSize, sudokuChromosome);
-            var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
+            do
             {
-                Termination = new OrTermination(new ITermination[]
+                var fitnessThreshold = 0;
+                var generationNb = 50;
+
+                var sudokuChromosome = new SudokuCellsChromosome(s);
+                var fitness = new SudokuFitness(s);
+                var selection = new EliteSelection();
+                var crossover = new UniformCrossover();
+                var mutation = new UniformMutation();
+
+                var population = new Population(populationSize, populationSize, sudokuChromosome);
+                var ga = new GeneticAlgorithm(population, fitness, selection, crossover, mutation)
                 {
+                    Termination = new OrTermination(new ITermination[]
+                    {
                     new FitnessThresholdTermination(fitnessThreshold),
                     new GenerationNumberTermination(generationNb)
-                })
-            };
+                    })
+                };
 
-            ga.Start();
+                ga.Start();
 
-            var bestIndividual = ((ISudokuChromosome)ga.Population.BestChromosome);
-            var solutions = bestIndividual.GetSudokus();
-            if (solutions.Count>0)
-            {
-                return solutions.First();
-            }
+                var bestIndividual = ((ISudokuChromosome)ga.Population.BestChromosome);
+                var solutions = bestIndividual.GetSudokus();
+                if (solutions.Count > 0)
+                {
+                    toReturn = solutions.First();
+                    if (toReturn.NbErrors(s)==0)
+                    {
+                        break;
+                    }
+                }
+                populationSize *= 5;
+            } while (true);
+            
 
-            return s;
+            return toReturn;
         }
     }
 
