@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sudoku.Shared;
 
-namespace Sudoku.PSOSolver
+namespace Sudoku.PSOSolvers
 {
     public class SudokuEvoProgram : ISolverSudoku
     {
@@ -26,8 +26,7 @@ namespace Sudoku.PSOSolver
             int numOrganisms = 200;
             int maxEpochs = 5000;
             int maxRestarts = 20;
-            int[][] soln = Solve(problem, numOrganisms,
-              maxEpochs, maxRestarts);
+            int[][] soln = Solve(problem, numOrganisms, maxEpochs, maxRestarts);
             Console.WriteLine("Best solution found: ");
             DisplayMatrix(soln);
             int err = Error(soln);
