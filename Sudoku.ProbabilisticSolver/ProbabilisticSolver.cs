@@ -230,7 +230,7 @@ namespace Sudoku.Probabilistic
             var cells = new List<Variable<int>>(CellIndices.Count);
 
 
-            for (int cellIndex = 0; cellIndex < 80; cellIndex++)
+            for (int cellIndex = 0; cellIndex < 81; cellIndex++)
             {
                 //On initialise le vecteur de probabilités de façon uniforme pour les chiffres de 1 à 9
                 var baseProbas = Enumerable.Repeat(1.0, CellDomain.Count).ToList();
