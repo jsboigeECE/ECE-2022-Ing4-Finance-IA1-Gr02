@@ -13,7 +13,7 @@ namespace Sudoku.Benchmark
         {
             string fileName = difficulty switch
             {
-                SudokuDifficulty.Easy => "Sudoku_Easy50.txt",
+                SudokuDifficulty.Easy => "Sudoku_Easy51.txt",
                 SudokuDifficulty.Medium => "Sudoku_hardest.txt",
                 _ => "Sudoku_top95.txt"
             };

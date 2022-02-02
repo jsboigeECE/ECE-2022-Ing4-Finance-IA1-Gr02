@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Benchmark", "Sudoku.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Puzzles", "Puzzles", "{5351C3A6-44B9-45CB-B4DB-4578796500FB}"
 	ProjectSection(SolutionItems) = preProject
-		Puzzles\Sudoku_Easy50.txt = Puzzles\Sudoku_Easy50.txt
+		Puzzles\Sudoku_Easy51.txt = Puzzles\Sudoku_Easy51.txt
 		Puzzles\Sudoku_hardest.txt = Puzzles\Sudoku_hardest.txt
 		Puzzles\Sudoku_top95.txt = Puzzles\Sudoku_top95.txt
 	EndProjectSection
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.DancingLinksSolvers"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.PSOSolvers", "Sudoku.PSOSolvers\Sudoku.PSOSolvers.csproj", "{C9CBEC27-1582-4A6B-BC77-89856C30A7C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Graphecolore", "Sudoku.Graphecolore\Sudoku.Graphecolore.csproj", "{FDE3A1B7-C8E0-465E-A4D7-EEA9DDA58B6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Graphecolore", "Sudoku.Graphecolore\Sudoku.Graphecolore.csproj", "{FDE3A1B7-C8E0-465E-A4D7-EEA9DDA58B6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
