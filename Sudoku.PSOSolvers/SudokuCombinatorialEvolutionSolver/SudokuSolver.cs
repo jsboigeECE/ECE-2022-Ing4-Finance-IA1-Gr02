@@ -1,9 +1,11 @@
 using System;
+using Sudoku.Shared;
+
 
 namespace SudokuCombinatorialEvolutionSolver
 {
-  public class SudokuSolver
-  {
+  public class SudokuSolver : ISolverSudoku
+    {
     private Random _rnd;
 
     public SudokuSolver()
@@ -11,7 +13,7 @@ namespace SudokuCombinatorialEvolutionSolver
       _rnd = new Random();
     }
 
-    public Sudoku Solve(Sudoku sudoku, int numOrganisms, int maxEpochs, int maxRestarts)
+    public GridSudoku Solve(GridSudoku sudoku, int numOrganisms, int maxEpochs, int maxRestarts)
     {
       var error = int.MaxValue;
       Sudoku bestSolution = null;
@@ -25,7 +27,7 @@ namespace SudokuCombinatorialEvolutionSolver
         ++attempt;
       }
 
-      return bestSolution;
+      return Sudoku bestSolution;
     }
 
     private Sudoku SolveInternal(Sudoku sudoku, int numOrganisms, int maxEpochs)
