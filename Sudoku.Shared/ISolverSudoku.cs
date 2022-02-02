@@ -3,8 +3,5 @@
     public interface ISolverSudoku
     {
         GridSudoku Solve(GridSudoku s);
-
     }
-
-
 }
