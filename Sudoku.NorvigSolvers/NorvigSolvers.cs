@@ -5,13 +5,33 @@ using System.Linq;
 
 namespace Sudoku.NorvigSolvers
 {
-    public class NorvigSolver : ISolverSudoku
+    public class NorvigSolverBase : NorvigSolver
+    {
+        public override Shared.GridSudoku Solve(Shared.GridSudoku s)
+        {
+            return SolveBase(s);
+        }
+
+    }
+
+    public class NorvigSolverOnlyEasy : NorvigSolver 
+    {
+        public override Shared.GridSudoku Solve(Shared.GridSudoku s)
+        {
+            return SolveOnlyEasy(s);
+        }
+
+    }
+
+    public abstract class NorvigSolver : ISolverSudoku
     {
         // Création de chaque case (carré) : A1, A2.... I8, I9
         static string[] Cross(string A, string B)
         {
             return (from a in A from b in B select "" + a + b).ToArray();
         }
+
+        public abstract GridSudoku Solve(Shared.GridSudoku s);
 
         static string V = "";
         static string rows = "ABCDEFGHI";
@@ -178,7 +198,7 @@ namespace Sudoku.NorvigSolvers
         }
 
         // Retourne le sudoku résolu
-        public GridSudoku Solve(GridSudoku sudo)
+        protected GridSudoku SolveBase(GridSudoku sudo)
         {
             String grid = "";
 
@@ -187,6 +207,26 @@ namespace Sudoku.NorvigSolvers
 
             // Résolution du sudoku par l'appel des fonctions 
             var values = Search(Parse_grid(grid));
+
+            // Conversion du sudoku résolu dans le bon type GridSudoku
+            foreach (var value in values)
+            {
+                int rowIndex = value.Key[0] - 'A';
+                int colIndex = int.Parse(value.Key[1].ToString()) - 1;
+                sudo.Cellules[rowIndex][colIndex] = int.Parse(value.Value.ToString());
+            }
+            return sudo;
+        }
+
+        protected GridSudoku SolveOnlyEasy(GridSudoku sudo)
+        {
+            String grid = "";
+
+            // Conversion de la grille en String
+            grid = Conversion(sudo);
+
+            // Résolution du sudoku par l'appel des fonctions 
+            var values = Parse_grid(grid);
 
             // Conversion du sudoku résolu dans le bon type GridSudoku
             foreach (var value in values)
