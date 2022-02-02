@@ -12,27 +12,35 @@ using System.Collections.Generic;
 namespace Sudoku.Probabilistic
 {
 
-    public class ProbabilisticSolver : ISolverSudoku
-    {
-        
 
-        private static NaiveSudokuModel naiveModel = new NaiveSudokuModel();
+    public class RobustProbabilisticSolver : ISolverSudoku
+    {
+
+
         private static RobustSudokuModel robustModel = new RobustSudokuModel();
 
         GridSudoku ISolverSudoku.Solve(GridSudoku s)
         {
-            System.Console.WriteLine("\n1. Naive Solver \n2. Robust Solver");
-            int choice = System.Console.Read();
-            if (choice == 1)
-            {
-                naiveModel.SolveSudoku(s);
-            }
-            else if (choice == 2)
-            {
-                robustModel.SolveSudoku(s);
-            }
+            robustModel.SolveSudoku(s);
+
+            return s;
+        }
+    }
+
+
+    public class NaiveProbabilisticSolver : ISolverSudoku
+    {
+        
+
+        private static NaiveSudokuModel naiveModel = new NaiveSudokuModel();
+       
+        GridSudoku ISolverSudoku.Solve(GridSudoku s)
+        {
+          
+           naiveModel.SolveSudoku(s);
+          
             
-            return s.CloneSudoku();
+            return s;
         }
     }
 
