@@ -6,7 +6,7 @@ using Sudoku.Shared;
 
 namespace Sudoku.solver_OR_Tools
 {
-    public class OrToolsSolver : ISolverSudoku
+    public class OrToolsDotNetCPSolver : ISolverSudoku
     {
 
         public Shared.GridSudoku Solve(Shared.GridSudoku sudoku)
@@ -98,7 +98,5 @@ namespace Sudoku.solver_OR_Tools
 
 
     }
-
-    //throw new NotImplementedException();
 }
 

@@ -176,17 +176,13 @@ namespace Sudoku.GeneticSharpsSolver
                 var tempList = new List<IList<int>>();
                 foreach (var perm in AllPermutations)
                 {
-                    for (int raw = 0; raw < 9; raw++)
-                    {
-                        for (int col = 0; col < 9; col++)
-                        {
-                            // Permutation should be compatible with current row extended mask domains
-                            if (Range9.All(j => ExtendedMask[(raw, col)].Contains(perm[j])))
-                            {
-                                tempList.Add(perm);
-                            }
-                        }
+                   
+                    // Permutation should be compatible with current row extended mask domains
+                    if (Range9.All(j => ExtendedMask[(i,j)].Contains(perm[j])))
+                    { 
+                        tempList.Add(perm);
                     }
+                        
                     
                 }
                 toReturn.Add(tempList);
