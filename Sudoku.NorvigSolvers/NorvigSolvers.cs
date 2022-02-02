@@ -85,11 +85,12 @@ namespace Sudoku.NorvigSolvers
          * Assigne les valeurs déjà présente sur la grille.
          * Et assigne les valeurs potentielles que peut prendre un carré.
          * (ie toutes les valeurs sauf celles impossibles).
+         * ex : { "A1" : "2", "A2" : "346", "A3" : "5",... } 
          */
         public static Dictionary<string, string> Parse_grid(string grid)
         {
             var grid2 = from c in grid where "0.-123456789".Contains(c) select c;
-            var values = squares.ToDictionary(s => s, s => digits); //To start, every square can be any digit
+            var values = squares.ToDictionary(s => s, s => digits); 
 
             foreach (var sd in Zip(squares, (from s in grid select s.ToString()).ToArray()))
             {
@@ -113,18 +114,21 @@ namespace Sudoku.NorvigSolvers
             }
             if (All(from s in squares select values[s].Length == 1 ? "" : null))
             {
-                return values; // Solved!
+                return values;
             }
-
-            // Chose the unfilled square s with the fewest possibilities
+            
             var s2 = (from s in squares where values[s].Length > 1 orderby values[s].Length ascending select s).First();
 
             return Some(from d in values[s2]
                         select Search(Assign(new Dictionary<string, string>(values), s2, d.ToString())));
         }
 
-        // La fonction assign(values, s, d) renverra les valeurs mises à jour (y compris les mises à jour de la propagation des contraintes)
-        // mais s'il y a une contradiction - si l'affectation ne peut pas être effectuée de manière cohérente - alors assign renvoie False .
+        /* Renvoie les valeurs mises à jour y compris 
+         * les mises à jour de la propagation des contraintes)
+         * mais s'il y a une contradiction - si l'affectation 
+         * ne peut pas être effectuée de manière cohérente 
+         * - alors assign renvoie False .
+        */
         static Dictionary<string, string> Assign(Dictionary<string, string> values, string s, string d)
         {
             if (All(
@@ -147,11 +151,10 @@ namespace Sudoku.NorvigSolvers
             values[s] = values[s].Replace(d, "");
             if (values[s].Length == 0)
             {
-                return null; //Contradiction: removed last value
+                return null;
             }
             else if (values[s].Length == 1)
             {
-                //If there is only one value (d2) left in square, remove it from peers
                 var d2 = values[s];
                 if (!All(from s2 in peers[s] select Eliminate(values, s2, d2)))
                 {
@@ -159,7 +162,7 @@ namespace Sudoku.NorvigSolvers
                 }
             }
 
-            //Now check the places where d appears in the units of s
+            // Vérification des endroits où d apparaît dans les units de s
             foreach (var u in units[s])
             {
                 var dplaces = from s2 in u where values[s2].Contains(d) select s2;
@@ -169,7 +172,6 @@ namespace Sudoku.NorvigSolvers
                 }
                 else if (dplaces.Count() == 1)
                 {
-                    // d can only be in one place in unit; assign it there
                     if (Assign(values, dplaces.First(), d) == null)
                     {
                         return null;
@@ -197,7 +199,9 @@ namespace Sudoku.NorvigSolvers
             return default(T);
         }
 
-        // Retourne le sudoku résolu
+        
+        // Retournent le sudoku résolu
+
         protected GridSudoku SolveBase(GridSudoku sudo)
         {
             String grid = "";
