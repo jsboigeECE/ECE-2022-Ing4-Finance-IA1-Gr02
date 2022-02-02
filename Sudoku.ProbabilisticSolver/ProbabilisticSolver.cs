@@ -8,19 +8,30 @@ using Microsoft.ML.Probabilistic.Models.Attributes;
 using System.Collections.Generic;
 //using Sudoku.Core;
 
+
 namespace Sudoku.Probabilistic
 {
 
     public class ProbabilisticSolver : ISolverSudoku
     {
+        
 
         private static NaiveSudokuModel naiveModel = new NaiveSudokuModel();
         private static RobustSudokuModel robustModel = new RobustSudokuModel();
 
         GridSudoku ISolverSudoku.Solve(GridSudoku s)
         {
-            //naiveModel.SolveSudoku(s);
-            robustModel.SolveSudoku(s);
+            System.Console.WriteLine("\n1. Naive Solver \n2. Robust Solver");
+            int choice = System.Console.Read();
+            if (choice == 1)
+            {
+                naiveModel.SolveSudoku(s);
+            }
+            else if (choice == 2)
+            {
+                robustModel.SolveSudoku(s);
+            }
+            
             return s.CloneSudoku();
         }
     }
