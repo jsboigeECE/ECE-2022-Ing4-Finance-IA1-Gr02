@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
 //using Humanizer;
@@ -24,6 +25,23 @@ namespace Sudoku.Benchmark
         {
 
             Console.WriteLine("Benchmarking GrilleSudoku Solvers");
+            
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Console.WriteLine("Customizing MacOs Python Install");
+                
+                // Installation Python standard, version différente
+                // MacInstaller.PythonDirectoryName = "3.10";
+                // MacInstaller.LibFileName = "libpython3.10.dylib";
+                
+                
+                // Environnement dédié Anaconda
+                 //MacInstaller.InstallPath = "/Users/hippolyteavit/opt/anaconda3/envs";
+                 //MacInstaller.PythonDirectoryName = "sudoku";
+                 //MacInstaller.LibFileName = "libpython3.8.dylib";
+                
+            }
+            
 
             while (true)
             {
@@ -56,7 +74,7 @@ namespace Sudoku.Benchmark
         private static bool RunMenu()
         {
 
-            Console.WriteLine("Select Mode: \n1-Single Solver Test, \n2-Quick Benchmark (Medium, 5s max per sudoku, Single invocation), \n3-Complete Benchmark (All difficulties, 5 mn max per sudoku, several invocations), \n4-Exit program");
+            Console.WriteLine("Select Mode: \n1-Single Solver Test, \n2-Benchmarks, \n3-Exit program");
             var strMode = Console.ReadLine();
             int.TryParse(strMode, out var intMode);
             //Console.SetBufferSize(130, short.MaxValue - 100);
@@ -66,15 +84,7 @@ namespace Sudoku.Benchmark
                     SingleSolverTest();
                     break;
                 case 2:
-                    //Init solvers
-                    var temp = new QuickBenchmarkSolvers();
-                    //BenchmarkRunner.Run<QuickBenchmarkSolvers>(new DebugInProcessConfig());
-                    BenchmarkRunner.Run<QuickBenchmarkSolvers>();
-                    break;
-                case 3:
-                    //Init solvers
-                    var temp2 = new CompleteBenchmarkSolvers();
-                    BenchmarkRunner.Run<CompleteBenchmarkSolvers>();
+                    Benchmark();
                     break;
                 default:
                     return true;
@@ -83,6 +93,45 @@ namespace Sudoku.Benchmark
             return false;
 
         }
+
+
+        private static void Benchmark()
+        {
+            Console.WriteLine("Select Benchmark Type: \n1-Quick Benchmark (Easy, 2 Sudokus, 20s max per sudoku, Single invocation), \n2-Quick Benchmark (Medium, 10 Sudokus, 20s max per sudoku, Single invocation), \n3-Quick Benchmark (Hard, 10 Sudokus, 20s max per sudoku, Single invocation), \n4-Complete Benchmark (All difficulties, 5 mn max per sudoku, several invocations), \n5-Return");
+            var strMode = Console.ReadLine();
+            int.TryParse(strMode, out var intMode);
+            //Console.SetBufferSize(130, short.MaxValue - 100);
+            switch (intMode)
+            {
+                case 1:
+                    var tempEasy = new QuickBenchmarkSolversEasy();
+                    //BenchmarkRunner.Run<QuickBenchmarkSolvers>(new DebugInProcessConfig());
+                    BenchmarkRunner.Run<QuickBenchmarkSolversEasy>();
+                    break;
+                case 2:
+                    //Init solvers
+                    var tempMedium = new QuickBenchmarkSolversMedium();
+                    //BenchmarkRunner.Run<QuickBenchmarkSolvers>(new DebugInProcessConfig());
+                    BenchmarkRunner.Run<QuickBenchmarkSolversMedium>();
+                    break;
+                case 3:
+                    //Init solvers
+                    var tempHard = new QuickBenchmarkSolversHard();
+                    //BenchmarkRunner.Run<QuickBenchmarkSolvers>(new DebugInProcessConfig());
+                    BenchmarkRunner.Run<QuickBenchmarkSolversHard>();
+                    break;
+                case 4:
+                    //Init solvers
+                    var temp2 = new CompleteBenchmarkSolvers();
+                    BenchmarkRunner.Run<CompleteBenchmarkSolvers>();
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+
+
 
         private static void SingleSolverTest()
         {

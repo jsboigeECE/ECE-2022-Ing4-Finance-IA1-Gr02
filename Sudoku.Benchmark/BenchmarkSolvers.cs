@@ -14,14 +14,33 @@ using Sudoku.Shared;
 namespace Sudoku.Benchmark
 {
 
+    public class QuickBenchmarkSolversHard : QuickBenchmarkSolversEasy
+    {
+        public QuickBenchmarkSolversHard()
+        {
+            NbPuzzles = 10;
+            Difficulty = SudokuDifficulty.Hard;
+        }
+    }
+
+
+    public class QuickBenchmarkSolversMedium : QuickBenchmarkSolversEasy
+    {
+        public QuickBenchmarkSolversMedium()
+        {
+            NbPuzzles = 10;
+            Difficulty = SudokuDifficulty.Medium;
+        }
+    }
 
 
     [Config(typeof(Config))]
-    public class QuickBenchmarkSolvers: BenchmarkSolversBase
+    public class QuickBenchmarkSolversEasy: BenchmarkSolversBase
     {
-        public QuickBenchmarkSolvers()
+        public QuickBenchmarkSolversEasy()
         {
-            MaxSolverDuration = TimeSpan.FromSeconds(5);
+            MaxSolverDuration = TimeSpan.FromSeconds(20);
+            NbPuzzles = 2;
         }
         private class Config : ManualConfig
         {
@@ -47,9 +66,8 @@ namespace Sudoku.Benchmark
             }
         }
 
-        public override SudokuDifficulty Difficulty { get; set; } = SudokuDifficulty.Medium;
+        public override SudokuDifficulty Difficulty { get; set; } = SudokuDifficulty.Easy;
 
-       
     }
 
 
@@ -164,7 +182,7 @@ namespace Sudoku.Benchmark
             {
                 try
                 {
-                    Console.WriteLine($"Solver {SolverPresenter} solving sudoku: \n {puzzle}");
+                    Console.WriteLine($"//Solver {SolverPresenter} solving sudoku: \n {puzzle}");
                     var startTime = Clock.Elapsed;
                     var solution = SolverPresenter.SolveWithTimeLimit(puzzle, MaxSolverDuration);
                     if (!solution.IsValid(puzzle))
@@ -175,7 +193,7 @@ namespace Sudoku.Benchmark
                     var duration = Clock.Elapsed - startTime;
                     var durationSeconds = (int)duration.TotalSeconds;
                     var durationMilliSeconds = duration.TotalMilliseconds - (1000 * durationSeconds);
-                    Console.WriteLine($"Valid Solution found: \n {solution} \n Solver {SolverPresenter} found the solution  in {durationSeconds} s {durationMilliSeconds} ms");
+                    Console.WriteLine($"//Valid Solution found: \n {solution} \n Solver {SolverPresenter} found the solution  in {durationSeconds} s {durationMilliSeconds} ms");
                 }
                 catch (Exception e)
                 {

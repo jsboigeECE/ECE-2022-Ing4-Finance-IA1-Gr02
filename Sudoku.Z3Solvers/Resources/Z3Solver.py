@@ -43,8 +43,7 @@ s = Solver()
 s.add(sudoku_c + instance_c)
 if s.check() == sat:
     m = s.model()
-    r = [ [ m.evaluate(X[i][j]).as_long() for j in range(9) ]
-          for i in range(9) ]
+    r = [ [ m.evaluate(X[i][j]).as_long() for j in range(9) ] for i in range(9) ]
     #print_matrix(r)
 else:
     print("failed to solve")

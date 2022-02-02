@@ -11,8 +11,6 @@ namespace Sudoku.Shared
 {
     public class GridSudoku : ICloneable
     {
-
-       
         /// <summary>
         /// The list of row indexes is used many times and thus stored for quicker access.
         /// </summary>
@@ -72,7 +70,8 @@ namespace Sudoku.Shared
                         {
                             foreach (var voisin in voisinage)
                             {
-                                if (!cellVoisinage.Contains(voisin))
+                                //We don't include the current cell
+                                if (!cellVoisinage.Contains(voisin) && voisin.row!= rowIndex || voisin.column!=columnIndex)
                                 {
                                     cellVoisinage.Add(voisin);
                                 }
@@ -89,7 +88,9 @@ namespace Sudoku.Shared
 
         public GridSudoku()
         {
+           
         }
+
 
 
 
