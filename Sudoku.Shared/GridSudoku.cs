@@ -88,7 +88,9 @@ namespace Sudoku.Shared
 
         public GridSudoku()
         {
+           
         }
+
 
 
 

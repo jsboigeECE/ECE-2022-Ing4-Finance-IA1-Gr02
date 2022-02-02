@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Kermalis.SudokuSolver.Core
 {
-    internal sealed class Puzzle
+    internal  class Puzzle
     {
         public readonly ReadOnlyCollection<Region> Rows;
         public readonly ReadOnlyCollection<Region> Columns;
