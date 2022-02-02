@@ -88,5 +88,12 @@ namespace Sudoku.RecuitSimule {
                 return ResourceManager.GetString("RecuitSimuleSolver.py", resourceCulture);
             }
         }
+        internal static string RecuitSimuleSolver2_py
+        {
+            get
+            {
+                return ResourceManager.GetString("RecuitSimuleSolver2.py", resourceCulture);
+            }
+        }
     }
 }
