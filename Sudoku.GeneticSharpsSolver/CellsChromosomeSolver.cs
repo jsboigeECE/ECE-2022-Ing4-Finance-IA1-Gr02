@@ -94,7 +94,7 @@ namespace Sudoku.GeneticSharpsSolver
             var fitnessThreshold = 0;
             var generationNb = 50;
 
-            var sudokuChromosome = new SudokuPermutationsChromosome(s);
+            var sudokuChromosome = new SudokuRandomPermutationsChromosome(s, 10, 1);
             var fitness = new SudokuFitness(s);
             var selection = new EliteSelection();
             var crossover = new UniformCrossover();

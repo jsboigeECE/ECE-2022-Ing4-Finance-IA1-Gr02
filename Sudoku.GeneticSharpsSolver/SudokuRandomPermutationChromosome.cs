@@ -40,6 +40,7 @@ namespace Sudoku.GeneticSharpsSolver
         /// <param name="targetGridSudoku">the target sudoku to solve</param>
         /// <param name="nbPermutations">the number of permutation genes per row</param>
         /// <param name="nbSudokus">the number of Sudokus generated for evaluation</param>
+        /// 
         public SudokuRandomPermutationsChromosome(GridSudoku targetGridSudoku, int nbPermutations, int nbSudokus) : this(targetGridSudoku, null, nbPermutations, nbSudokus) { }
 
         /// <summary>
