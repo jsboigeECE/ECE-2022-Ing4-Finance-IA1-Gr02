@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Sudoku.DancingLinksSolvers\Sudoku.DancingLinksSolvers.csproj" />
     <ProjectReference Include="..\Sudoku.GeneticSharpsSolver\Sudoku.GeneticSharpsSolver.csproj" />
     <ProjectReference Include="..\Sudoku.NorvigSolvers\Sudoku.NorvigSolvers.csproj" />
+    <ProjectReference Include="..\Sudoku.PSOSolvers\Sudoku.PSOSolvers.csproj" />
     <ProjectReference Include="..\Sudoku.Shared\Sudoku.Shared.csproj" />
     <ProjectReference Include="..\Sudoku.SolverHumanTechnical\Sudoku.SolverHumanTechnical.csproj" />
     <ProjectReference Include="..\Sudoku.solver-OR-Tools\Sudoku.solver-OR-Tools.csproj" />
@@ -23,6 +24,7 @@
     <ProjectReference Include="..\Sudoku.ProbabilisticSolver\Sudoku.ProbabilisticSolver.csproj" />
     <ProjectReference Include="..\Soduko.BacktrackingSolver\Soduko.BacktrackingSolver.csproj" />
     <ProjectReference Include="..\Sudoku.RecuitSimule\Sudoku.RecuitSimule.csproj" />
+    <ProjectReference Include="..\Sudoku.Graphecolore\Sudoku.Graphecolore.csproj" />
   </ItemGroup>
 
 </Project>

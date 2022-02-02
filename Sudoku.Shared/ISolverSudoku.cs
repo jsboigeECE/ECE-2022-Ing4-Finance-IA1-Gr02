@@ -4,6 +4,4 @@
     {
         GridSudoku Solve(GridSudoku s);
     }
-
-
 }
