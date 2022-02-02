@@ -53,6 +53,10 @@ namespace Sudoku.Probabilistic
         private static List<int> CellDomain = Enumerable.Range(1, 9).ToList();
         private static List<int> CellIndices = Enumerable.Range(0, 81).ToList();
 
+
+        // Cf https://en.wikipedia.org/wiki/Categorical_distribution et https://en.wikipedia.org/wiki/Categorical_distribution#Bayesian_inference_using_conjugate_prior pour le choix des distributions
+        // et le chapitre 6 de https://dotnet.github.io/infer/InferNet101.pdf pour l'implémentation dans Infer.Net
+
         public VariableArray<Dirichlet> CellsPrior;
         public VariableArray<Vector> ProbCells;
         public VariableArray<int> Cells;
@@ -62,12 +66,7 @@ namespace Sudoku.Probabilistic
 
 
 
-        /*public RobustSudokuModel()
-        {
-            
-        }*/
-
-        public virtual void SolveSudoku(GridSudoku s)
+        public RobustSudokuModel()
         {
             Range valuesRange = new Range(CellDomain.Count).Named("valuesRange");
             Range cellsRange = new Range(CellIndices.Count).Named("cellsRange");
@@ -76,7 +75,6 @@ namespace Sudoku.Probabilistic
             ProbCells = Variable.Array<Vector>(cellsRange).Named("ProbCells");
             ProbCells[cellsRange] = Variable<Vector>.Random(CellsPrior[cellsRange]);
             ProbCells.SetValueRange(valuesRange);
-
 
             // Initialisation des distribution a priori de façon uniforme (les valeurs sont équiprobables pour chaque cellule)
 
@@ -97,26 +95,27 @@ namespace Sudoku.Probabilistic
 
                         if (neighborCellIndex80 > cellIndex80)
                         {
-                            Variable.ConstrainFalse(s.Cellules[rowIndex][colIndex] == s.Cellules[neighbourCellIndex.row][neighbourCellIndex.column]);
+                            
+                            Variable.ConstrainFalse(Cells[cellIndex80] == Cells[neighborCellIndex80]);
                         }
                     }
                 }
-
-                /*Code original
-                //Ajout des contraintes de Sudoku (all diff pour tous les voisinages)
-                foreach (var cellIndex in GrilleSudoku.IndicesCellules)
+            }
+            /*Code original
+            //Ajout des contraintes de Sudoku (all diff pour tous les voisinages)
+            foreach (var cellIndex in GrilleSudoku.IndicesCellules)
+            {
+                foreach (var neighbourCellIndex in GrilleSudoku.VoisinagesParCellule[cellIndex])
                 {
-                    foreach (var neighbourCellIndex in GrilleSudoku.VoisinagesParCellule[cellIndex])
+                    if (neighbourCellIndex > cellIndex)
                     {
-                        if (neighbourCellIndex > cellIndex)
-                        {
-                            Variable.ConstrainFalse(Cells[cellIndex] == Cells[neighbourCellIndex]);
-                        }
+                        Variable.ConstrainFalse(Cells[cellIndex] == Cells[neighbourCellIndex]);
                     }
-                }*/
+                }
+            }*/
 
 
-                IAlgorithm algo = new ExpectationPropagation();
+            IAlgorithm algo = new ExpectationPropagation();
                 //IAlgorithm algo = new GibbsSampling();
                 //IAlgorithm algo = new VariationalMessagePassing();
                 //IAlgorithm algo = new MaxProductBeliefPropagation();
@@ -130,6 +129,9 @@ namespace Sudoku.Probabilistic
 
             }
 
+        public virtual void SolveSudoku(GridSudoku s)
+        {
+           
             Dirichlet[] dirArray = Enumerable.Repeat(Dirichlet.Uniform(CellDomain.Count), CellIndices.Count).ToArray();
 
             //On affecte les valeurs fournies par le masque à résoudre en affectant les distributions de probabilités initiales
@@ -250,7 +252,7 @@ namespace Sudoku.Probabilistic
 
                         if (neighborCellIndex80 > cellIndex80)
                         {
-                            Variable.ConstrainFalse(s.Cellules[rowIndex][colIndex] == s.Cellules[neighbourCellIndex.row][neighbourCellIndex.column]);
+                            Variable.ConstrainFalse(cells[cellIndex80] == cells[neighborCellIndex80]);
                         }
                     }
                 }
