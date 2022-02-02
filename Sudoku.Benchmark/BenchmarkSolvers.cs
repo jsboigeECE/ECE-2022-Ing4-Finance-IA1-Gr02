@@ -39,7 +39,7 @@ namespace Sudoku.Benchmark
     {
         public QuickBenchmarkSolversEasy()
         {
-            MaxSolverDuration = TimeSpan.FromSeconds(10);
+            MaxSolverDuration = TimeSpan.FromSeconds(20);
             NbPuzzles = 2;
         }
         private class Config : ManualConfig
