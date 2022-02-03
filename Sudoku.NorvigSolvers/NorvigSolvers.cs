@@ -5,13 +5,33 @@ using System.Linq;
 
 namespace Sudoku.NorvigSolvers
 {
-    public class NorvigSolver : ISolverSudoku
+    public class NorvigSolverBase : NorvigSolver
+    {
+        public override Shared.GridSudoku Solve(Shared.GridSudoku s)
+        {
+            return SolveBase(s);
+        }
+
+    }
+
+    public class NorvigSolverOnlyEasy : NorvigSolver 
+    {
+        public override Shared.GridSudoku Solve(Shared.GridSudoku s)
+        {
+            return SolveOnlyEasy(s);
+        }
+
+    }
+
+    public abstract class NorvigSolver : ISolverSudoku
     {
         // Création de chaque case (carré) : A1, A2.... I8, I9
         static string[] Cross(string A, string B)
         {
             return (from a in A from b in B select "" + a + b).ToArray();
         }
+
+        public abstract GridSudoku Solve(Shared.GridSudoku s);
 
         static string V = "";
         static string rows = "ABCDEFGHI";
@@ -65,11 +85,12 @@ namespace Sudoku.NorvigSolvers
          * Assigne les valeurs déjà présente sur la grille.
          * Et assigne les valeurs potentielles que peut prendre un carré.
          * (ie toutes les valeurs sauf celles impossibles).
+         * ex : { "A1" : "2", "A2" : "346", "A3" : "5",... } 
          */
         public static Dictionary<string, string> Parse_grid(string grid)
         {
             var grid2 = from c in grid where "0.-123456789".Contains(c) select c;
-            var values = squares.ToDictionary(s => s, s => digits); //To start, every square can be any digit
+            var values = squares.ToDictionary(s => s, s => digits); 
 
             foreach (var sd in Zip(squares, (from s in grid select s.ToString()).ToArray()))
             {
@@ -93,18 +114,21 @@ namespace Sudoku.NorvigSolvers
             }
             if (All(from s in squares select values[s].Length == 1 ? "" : null))
             {
-                return values; // Solved!
+                return values;
             }
-
-            // Chose the unfilled square s with the fewest possibilities
+            
             var s2 = (from s in squares where values[s].Length > 1 orderby values[s].Length ascending select s).First();
 
             return Some(from d in values[s2]
                         select Search(Assign(new Dictionary<string, string>(values), s2, d.ToString())));
         }
 
-        // La fonction assign(values, s, d) renverra les valeurs mises à jour (y compris les mises à jour de la propagation des contraintes)
-        // mais s'il y a une contradiction - si l'affectation ne peut pas être effectuée de manière cohérente - alors assign renvoie False .
+        /* Renvoie les valeurs mises à jour y compris 
+         * les mises à jour de la propagation des contraintes)
+         * mais s'il y a une contradiction - si l'affectation 
+         * ne peut pas être effectuée de manière cohérente 
+         * - alors assign renvoie False .
+        */
         static Dictionary<string, string> Assign(Dictionary<string, string> values, string s, string d)
         {
             if (All(
@@ -127,11 +151,10 @@ namespace Sudoku.NorvigSolvers
             values[s] = values[s].Replace(d, "");
             if (values[s].Length == 0)
             {
-                return null; //Contradiction: removed last value
+                return null;
             }
             else if (values[s].Length == 1)
             {
-                //If there is only one value (d2) left in square, remove it from peers
                 var d2 = values[s];
                 if (!All(from s2 in peers[s] select Eliminate(values, s2, d2)))
                 {
@@ -139,7 +162,7 @@ namespace Sudoku.NorvigSolvers
                 }
             }
 
-            //Now check the places where d appears in the units of s
+            // Vérification des endroits où d apparaît dans les units de s
             foreach (var u in units[s])
             {
                 var dplaces = from s2 in u where values[s2].Contains(d) select s2;
@@ -149,7 +172,6 @@ namespace Sudoku.NorvigSolvers
                 }
                 else if (dplaces.Count() == 1)
                 {
-                    // d can only be in one place in unit; assign it there
                     if (Assign(values, dplaces.First(), d) == null)
                     {
                         return null;
@@ -176,19 +198,11 @@ namespace Sudoku.NorvigSolvers
             }
             return default(T);
         }
-        static string Center(string s, int width)
-        {
-            var n = width - s.Length;
-            if (n <= 0) return s;
-            var half = n / 2;
 
-            if (n % 2 > 0 && width % 2 > 0) half++;
+        
+        // Retournent le sudoku résolu
 
-            return new string(' ', half) + s + new String(' ', n - half);
-        }
-
-        // Retourne le sudoku résolu
-        public GridSudoku Solve(GridSudoku sudo)
+        protected GridSudoku SolveBase(GridSudoku sudo)
         {
             String grid = "";
 
@@ -199,20 +213,31 @@ namespace Sudoku.NorvigSolvers
             var values = Search(Parse_grid(grid));
 
             // Conversion du sudoku résolu dans le bon type GridSudoku
-            for (int i = 0; i < 9; i++)
+            foreach (var value in values)
             {
-                for (int j = 0; j < 9; j++)
-                {
-                    foreach (var value in values)
-                    {
-                        int rowIndex = value.Key[0] - 'A';
-                        int colIndex = int.Parse(value.Key[1].ToString()) - 1;
-                        if (rowIndex == i && colIndex == j)
-                        {
-                            sudo.Cellules[i][j] = int.Parse(value.Value.ToString());
-                        }
-                    }
-                }
+                int rowIndex = value.Key[0] - 'A';
+                int colIndex = int.Parse(value.Key[1].ToString()) - 1;
+                sudo.Cellules[rowIndex][colIndex] = int.Parse(value.Value.ToString());
+            }
+            return sudo;
+        }
+
+        protected GridSudoku SolveOnlyEasy(GridSudoku sudo)
+        {
+            String grid = "";
+
+            // Conversion de la grille en String
+            grid = Conversion(sudo);
+
+            // Résolution du sudoku par l'appel des fonctions 
+            var values = Parse_grid(grid);
+
+            // Conversion du sudoku résolu dans le bon type GridSudoku
+            foreach (var value in values)
+            {
+                int rowIndex = value.Key[0] - 'A';
+                int colIndex = int.Parse(value.Key[1].ToString()) - 1;
+                sudo.Cellules[rowIndex][colIndex] = int.Parse(value.Value.ToString());
             }
             return sudo;
         }
